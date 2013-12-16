@@ -45,4 +45,4 @@ and inline is often a better option.
 
 The conditional expression could contain any C operator except for the assignment
 operators, the increment and decrement operators, the address-of operator, and the
-sizeof operator.
+sizeof operator. 

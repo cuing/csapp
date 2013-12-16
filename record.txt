@@ -1,0 +1,48 @@
+These placeholders are called format specifiers. Many other format specifiers
+work with printf. If we have a floating-point number, we can use %f to print
+out a floating-point number, decimal point and all. Other format specifiers are:
+  %d - int(same as %i)
+  %ld - long int (same as %li)
+  %f - float
+  %lf - double
+  %c - char
+  %s - string
+  %x hexadecimal
+
+
+
+Conditionals:
+  A conditional is a statement that instructs the computer to execute a 
+  certain block of code or alter certain data only if a specific condition
+  has been met. The most common conditional is the If-Else statement, with
+  conditional expressions and Switch-Case statements typically used as more
+  shorthanded methods.
+
+A WHILE  loop can be used to do the same thing as a FOR loop, however a FOR
+loop is a more condensed way to perform a set number of repetitions since all
+of the necessary information is in a one line statement.
+
+We have some terminology to refer to functions:
+  A function, call it f, that uses another function g, is said to call g.
+  For example, f calls g to print the squares of ten numbers.
+
+  A function's inputs are known as its arguments.
+
+  A function g that gives some kind of answer back to f is said to return that
+  answer.
+
+
+If a function is to be called only from within the file in which it is declared,
+it is appropriate to declare it as a static function. When a function is declared
+static, the compiler will now compile to an object file in a way that prevents the
+function from being called from code in other files.
+
+It is usually  bad practice to define macros in headers. A macro should be defined
+only when it is not possible to achieve the result with a function or some other
+mechanism. Some compilers are able to optimize code to where calls to small functions
+are replaced with inline code, negating any possible advantage. Using typedefs, enums,
+and inline is often a better option.
+
+The conditional expression could contain any C operator except for the assignment
+operators, the increment and decrement operators, the address-of operator, and the
+sizeof operator.

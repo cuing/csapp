@@ -47,4 +47,37 @@ The conditional expression could contain any C operator except for the assignmen
 operators, the increment and decrement operators, the address-of operator, and the
 sizeof operator. 
 
-abc
+
+3.4.3 Data Movement Example
+Two features about this assembly code are worth noting. First, we see that what we
+call "pointers" in C are simple addresses. Dereferencing a pointer involves copying
+that pointer into a register, and then using this register in a memory reference.
+Second, local variables such as x are often kept in registers rather than stored in
+memory locations. Register access is much faster than memory access.
+
+3.5 Arithmetic and Logical Operations
+The operations are divided into four groups: load effective address, unary, binary,
+and shifts.
+
+Instruction        Effect        Description
+leal S, D          D ← &S        Load effective address
+inc D              D←D+1         Increment
+dec D              D←D-1         Decrement
+neg D              D ← -D        Negate
+not D              D ← ~D        Complement
+add S, D           D←D+S         Add
+sub S, D           D←D-S         Subtract
+imul S, D          D←D*S         Multiply
+xor S, D           D←D^S         Exclusive-or
+or S, D            D←D|S         Or
+and S, D           D←D&S         And
+sal k, D           D ← D << k    Left shift
+shl k, D           D ← D << k    Left shift (same as sal)
+sar k, D           D ← D >> Ak   Arithmetic right shift
+shr k, D           D ← D >>Lk    Logical right shift
+
+Figure 3.7 Integer arithmetic operations. The load effective address(leal) instruction
+is commonly used to perform simple arithmetic. The remaining ones are more standard
+unary or binary operations. We use the notation >>A and >>L to denote arithmetic and
+logical right shift, respectively. Note the nonintuitive ordering of the operands with
+ATT-format assembly code.

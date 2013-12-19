@@ -1,3 +1,73 @@
+Source values can be given as constants or read from registers or memory.
+Result can be stored in either registers or memory. Thus, the different
+operand possibilities can be classified into three types.
+    The first type,immediate, is for constant values.
+
+    The second type, register, denotes the contents of one of the registers, 
+    either one of the eight 32-bit registers for a double-word operation, 
+    one of the eight 16-bit registers for a word operation, or one of eight
+    single-byte register elements for a byte operation.
+
+    The third type of operand is a memory reference, in which we access some
+    memory location according to a computed address, often called the effective
+    address.
+
+
+
+
+Type        Form            Operand value            Name
+Immediate   $Imm            Imm                      Immediate
+Register    Ea              R[Ea]                    Register
+Memory      Imm             M[Imm]                   Absolute
+Memory      (Ea)            M[R[Ea]]                 Indirect
+Memory      Imm(Eb)         M[Imm + R[Eb]]           Base + displacement
+Memory      (Eb ,Ei)        M[R[Eb] + R[Ei]]         Indexed
+Memory      Imm(Eb ,Ei)     M[Imm + R[Eb] + R[Ei]]   Indexed
+Memory      (,Ei ,s)        M[R[Ei]*s]               Scaled indexed
+Memory      Imm(,Ei ,s)     M[Imm + R[Ei]*s]         Scaled indexed
+Memory      (Eb ,Ei ,s)     M[R[Eb] + R[Ei]*s]       Scaled indexed
+Memory      Imm(Eb ,Ei ,s ) M[Imm + R[Eb] + R[Ei]*s] Scaled indexed
+
+Figure 3.3 Operand forms. Operands can denote immediate(constant) values, register
+values, or values from memory. The scaling factor s must be either 1, 2, 4, or 8
+
+The most general form is shown at the bottom of the table with syntax Imm(Eb,Ei,s).
+Such a reference has four components: an immediate offset Imm, a base register Eb,
+an index register Ei, and a scale factor s, where s mush be 1, 2, 4, or 8. The
+effective address is then computed as Imm + R[Eb] + R[Ei] * s. This general form is
+often seen when referencing elements of arrays. The other forms are simply special
+cases of this general form where some of the components are omitted. As we will see,
+the more complex addressing modes are useful when referencing array and structure
+elements.
+
+The instructions in the MOV class copy their source values to their destinations.
+The source operand designates a value that is immediate, stored in a register, or
+stored in memory. The destination operand designates a location that is either a
+register or a memory address. IA32 imposes the restriction that a move instruction
+cannot have both operands refer to memory locations -- the first to load the source
+value into a register, and the second to write this register value to the destination.
+
+Five possible combinations of source and destination types.
+    movel $0x4050,%eax        Immediate--Register, 4 bytes
+    movew %bp, %sp            Register--Register,  3 bytes
+    moveb (%edi,%ecx), %ah    Memory--Register,    1 byte
+    moveb $-17,(%esp)         Immediate--memory,   1 byte
+    movel %eax, -12(%ebp)     Register--Memory,    4 bytes
+
+
+Pushing a double-word value onto the stack involves first decrementing the stack pointer by
+4 and then writing the value at the new top of stack address. Therefore, the behavior of
+the instruction pushl %ebp is equivalent to that of the pair of instructions
+    subl $4 %esp        Decrement stack pointer
+    movl %ebp, (%esp)   Store %ebp on stack
+
+Popping a double word involves reading from the top of stack location and then incrementing
+the stack pointer by 4. Therefore, the instruction pop1 %eax is equivalent to the following
+pair of instructions:
+    movl (%esp), %eax        Read %eax from stack
+    addl $4, %esp            Increment stack pointer
+
+
 These placeholders are called format specifiers. Many other format specifiers
 work with printf. If we have a floating-point number, we can use %f to print
 out a floating-point number, decimal point and all. Other format specifiers are:
@@ -8,8 +78,6 @@ out a floating-point number, decimal point and all. Other format specifiers are:
   %c - char
   %s - string
   %x hexadecimal
-
-
 
 Conditionals:
   A conditional is a statement that instructs the computer to execute a 

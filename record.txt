@@ -81,3 +81,30 @@ is commonly used to perform simple arithmetic. The remaining ones are more stand
 unary or binary operations. We use the notation >>A and >>L to denote arithmetic and
 logical right shift, respectively. Note the nonintuitive ordering of the operands with
 ATT-format assembly code.
+
+
+Instruction    Effect                                Description
+imull    S     R[%edx]:R[%eax] ← S × R[%eax]         Signed full multiply 
+mull     S     R[%edx]:R[%eax] ← S × R[%eax]         Unsigned full multiply
+cltd     S     R[%edx]:R[%eax] ← SignExtend(R[%eax]) Convert to quad word
+
+idivl    S     R[%edx] ← R[%edx]:R[%eax] mod S;      Signed divide
+               R[%eax] ← R[%edx]:R[%eax] ÷ S   
+
+divl     S     R[%edx] ← R[%edx]:R[%eax] mod S;      Unsigned divide
+               R[%eax] ← R[%edx]:R[%eax] ÷ S   
+
+Figure 3.9 Special arithmetic operations. These operations provide full 64-bit
+multiplication and division, for both signed and unsigned numbers. The pair of
+registers %edx and %eax are viewed as forming a single 64-bit quad word. 
+
+IA32 also provides two different "one-operand" multiply instructions to compute the
+full 64-bit product of two 32-bit values - one for unsigned (mull), and one for
+two's-complement(imull) multiplication. For both of these, one argument must be in
+register %eax, and the other is given as the instruction source operand. The product
+is then stored in registers %edx(high-order 32 bits) and %eax(low-order 32 bits).
+
+  
+         
+   
+         

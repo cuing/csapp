@@ -174,5 +174,64 @@ is then stored in registers %edx(high-order 32 bits) and %eax(low-order 32 bits)
 
   
          
-   
-         
+3.6 Control
+Machine code provides two basic low-level mechanisms for implementing conditional
+behavior: it tests data values and then either alters the control flow or the data
+flow based on the result of these tests.
+
+The most useful condition codes are:
+  CF: Carry Flag. The most recent operation generated a carry out of the most
+      significant bit. Used to detect overflow for unsigned operations.
+
+  ZF: Zero Flag. The most recent operation yielded zero.
+
+  SF: Sign Flag. The most recent operation yielded a negative value.
+
+  OF: Overflow Flag. The most recent operation caused a two's-complement overflow -- either
+      negative or position.   
+
+
+Instruction        Based on                        Description
+
+CMP   S2,S1        S1 - S2                         Compare
+cmpb               Compare byte
+cmpw               Compare word
+cmpl               Compare double word
+
+TEST  S2,S1        S1 & S2                          Test
+testb              Test byte
+testw              Test word
+testl              Test double word
+
+Figure 3.10 Comparison and test instructions. These instructions set the condition codes
+without updating any other registers.
+
+
+Instruction    Synonym    Effect                    Set condition
+sete      D    setz       D <-- ZF                   Equal/ zero
+setne     D    setnz      D <-- ~ZF                  Not equal/ not zero    
+
+sets      D               D <-- SF                   Negative
+setns     D               D <-- ~SF                  Nonnegative
+
+setg      D    setnle     D <-- ~(SF ^ OF) & ~ZF     Greater (signed >)
+setge     D    setnl      D <-- ~(SF ^ OF)           Greater or equal (signed >=)
+setl      D    setnge     D <-- SF ^ OF              Less (signed <)
+setle     D    setng      D <-- (SF ^ OF) | ZF       Less or equal (signed <=)
+
+seta      D    setnbe     D <-- ~CF & ~ZF            Above (unsigned >)
+setae     D    setnb      D <-- ~CF                  Above or equal (unsigned >=)
+setb      D    setnae     D <-- CF                   Below (unsigned <)
+setbe     D    setna      D <-- CF | ZF              Below or equal (unsigned <=)
+
+Figure 3.11 The SET instructions. Each instruction sets a single byte to 0 or 1 based on
+some combination of the condition codes. Some instructions have "synonyms," i.e.,alternate
+names for the same machine istruction.
+
+
+
+There are three common ways of using the condition codes: (1) we can set a single byte to 0
+or 1 depending on some combination of the condtion codes, (2) we can conditionally jump to
+some other part of the program, or (3) we can conditionally transfer data.
+
+

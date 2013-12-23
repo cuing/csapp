@@ -14,8 +14,9 @@ operand possibilities can be classified into three types.
 
 
 
-
+-----------------------------------------------------------------------------
 Type        Form            Operand value            Name
+-----------------------------------------------------------------------------
 Immediate   $Imm            Imm                      Immediate
 Register    Ea              R[Ea]                    Register
 Memory      Imm             M[Imm]                   Absolute
@@ -27,7 +28,7 @@ Memory      (,Ei ,s)        M[R[Ei]*s]               Scaled indexed
 Memory      Imm(,Ei ,s)     M[Imm + R[Ei]*s]         Scaled indexed
 Memory      (Eb ,Ei ,s)     M[R[Eb] + R[Ei]*s]       Scaled indexed
 Memory      Imm(Eb ,Ei ,s ) M[Imm + R[Eb] + R[Ei]*s] Scaled indexed
-
+-------------------------------------------------------------------------------
 Figure 3.3 Operand forms. Operands can denote immediate(constant) values, register
 values, or values from memory. The scaling factor s must be either 1, 2, 4, or 8
 
@@ -127,7 +128,9 @@ memory locations. Register access is much faster than memory access.
 The operations are divided into four groups: load effective address, unary, binary,
 and shifts.
 
+-------------------------------------------------------------------------------------
 Instruction        Effect        Description
+-------------------------------------------------------------------------------------
 leal S, D          D ← &S        Load effective address
 inc D              D←D+1         Increment
 dec D              D←D-1         Decrement
@@ -143,6 +146,7 @@ sal k, D           D ← D << k    Left shift
 shl k, D           D ← D << k    Left shift (same as sal)
 sar k, D           D ← D >> Ak   Arithmetic right shift
 shr k, D           D ← D >>Lk    Logical right shift
+---------------------------------------------------------------------------------------
 
 Figure 3.7 Integer arithmetic operations. The load effective address(leal) instruction
 is commonly used to perform simple arithmetic. The remaining ones are more standard
@@ -150,8 +154,9 @@ unary or binary operations. We use the notation >>A and >>L to denote arithmetic
 logical right shift, respectively. Note the nonintuitive ordering of the operands with
 ATT-format assembly code.
 
-
+---------------------------------------------------------------------------------------
 Instruction    Effect                                Description
+---------------------------------------------------------------------------------------
 imull    S     R[%edx]:R[%eax] ← S × R[%eax]         Signed full multiply 
 mull     S     R[%edx]:R[%eax] ← S × R[%eax]         Unsigned full multiply
 cltd     S     R[%edx]:R[%eax] ← SignExtend(R[%eax]) Convert to quad word
@@ -161,6 +166,7 @@ idivl    S     R[%edx] ← R[%edx]:R[%eax] mod S;      Signed divide
 
 divl     S     R[%edx] ← R[%edx]:R[%eax] mod S;      Unsigned divide
                R[%eax] ← R[%edx]:R[%eax] ÷ S   
+---------------------------------------------------------------------------------------
 
 Figure 3.9 Special arithmetic operations. These operations provide full 64-bit
 multiplication and division, for both signed and unsigned numbers. The pair of
@@ -190,9 +196,9 @@ The most useful condition codes are:
   OF: Overflow Flag. The most recent operation caused a two's-complement overflow -- either
       negative or position.   
 
-
+----------------------------------------------------------------------------------------
 Instruction        Based on                        Description
-
+----------------------------------------------------------------------------------------
 CMP   S2,S1        S1 - S2                         Compare
 cmpb               Compare byte
 cmpw               Compare word
@@ -202,12 +208,14 @@ TEST  S2,S1        S1 & S2                          Test
 testb              Test byte
 testw              Test word
 testl              Test double word
+------------------------------------------------------------------------------------------
 
 Figure 3.10 Comparison and test instructions. These instructions set the condition codes
 without updating any other registers.
 
-
+-----------------------------------------------------------------------------------
 Instruction    Synonym    Effect                    Set condition
+-----------------------------------------------------------------------------------
 sete      D    setz       D <-- ZF                   Equal/ zero
 setne     D    setnz      D <-- ~ZF                  Not equal/ not zero    
 
@@ -223,7 +231,7 @@ seta      D    setnbe     D <-- ~CF & ~ZF            Above (unsigned >)
 setae     D    setnb      D <-- ~CF                  Above or equal (unsigned >=)
 setb      D    setnae     D <-- CF                   Below (unsigned <)
 setbe     D    setna      D <-- CF | ZF              Below or equal (unsigned <=)
-
+------------------------------------------------------------------------------------
 Figure 3.11 The SET instructions. Each instruction sets a single byte to 0 or 1 based on
 some combination of the condition codes. Some instructions have "synonyms," i.e.,alternate
 names for the same machine istruction.
@@ -234,4 +242,31 @@ There are three common ways of using the condition codes: (1) we can set a singl
 or 1 depending on some combination of the condtion codes, (2) we can conditionally jump to
 some other part of the program, or (3) we can conditionally transfer data.
 
+-------------------------------------------------------------------------------------
+Instruction            Synonym    Jump condition            Description
+-------------------------------------------------------------------------------------
+jmp    Label                      1                         Direct jump
+jmp    *Operand                   1                         Indirection jump
 
+je     Label           jz         ZF                        Equal/zero
+jne    Label           jnz        ~ZF                       Not equal/not zero
+
+js     Label                      SF                        Negative
+jns    Label                      ~SF                       Nonnegative
+
+jg     Label           jnle       ~(SF ^ OF) & ~ZF          Greater (singed >)
+jge    Label           jnl        ~(SF ^ OF)                Greater or equal(signed >=)
+jl     Label           jnge       SF ^ OF                   Less(signed <)
+jle    Label           jng        (SF ^ OF) | ZF            Less or equal(signed <=)
+
+ja     Label           jnbe       ~CF & ~ZF                 Above(unsigned >)
+jae    Label           jnb        ~CF                       Above or equal(unsigned >=)
+jb     Label           jnae       CF                        Below(unsigned <)
+jbe    Label           jna        CF | ZF                   Below or equal (unsigned <=)
+---------------------------------------------------------------------------------------
+Figure 3.12 The jump instructions. These instructions jump to a labeled destination when
+the jump condition holds. Some instructions have "synonyms", alternate names for the same
+machine instruction.
+
+Using goto statements is generally considered a bad programming style, since their use can
+make code very difficult to 

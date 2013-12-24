@@ -269,4 +269,5 @@ the jump condition holds. Some instructions have "synonyms", alternate names for
 machine instruction.
 
 Using goto statements is generally considered a bad programming style, since their use can
-make code very difficult to 
+make code very difficult to read and debug.
+

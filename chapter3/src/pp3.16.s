@@ -1,4 +1,4 @@
-	.file	"test.c"
+	.file	"pp3.16.c"
 	.text
 	.globl	cond
 	.type	cond, @function

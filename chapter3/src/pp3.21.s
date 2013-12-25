@@ -1,17 +1,19 @@
-	.file	"test.c"
+	.file	"pp3.21.c"
 	.text
-	.globl	fact_while
-	.type	fact_while, @function
-fact_while:
+	.globl	loop_while
+	.type	loop_while, @function
+loop_while:
 .LFB0:
 	.cfi_startproc
-	cmpl	$1, %edi
-	jle	.L4
+	cmpl	%esi, %edi
+	jge	.L4
+	addl	%esi, %edi
+	addl	%esi, %esi
 	movl	$1, %eax
 .L3:
 	imull	%edi, %eax
-	subl	$1, %edi
-	cmpl	$1, %edi
+	addl	$1, %edi
+	cmpl	%esi, %edi
 	jne	.L3
 	rep
 	ret
@@ -20,6 +22,6 @@ fact_while:
 	ret
 	.cfi_endproc
 .LFE0:
-	.size	fact_while, .-fact_while
+	.size	loop_while, .-loop_while
 	.ident	"GCC: (Ubuntu/Linaro 4.7.2-2ubuntu1) 4.7.2"
 	.section	.note.GNU-stack,"",@progbits

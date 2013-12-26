@@ -271,3 +271,42 @@ machine instruction.
 Using goto statements is generally considered a bad programming style, since their use can
 make code very difficult to read and debug.
 
+
+For Loops
+    for (init-expr; test-expr; update-expr)
+        body-statement
+
+    equal while loop:
+    init-expr;
+    while (test-expr) {
+        body-statement;
+        update-expr;
+    }
+
+    equal do-while loop:
+    init-expr;
+    if (!test-expr) {
+      goto done;
+    }
+    do {
+        body-statement;
+        update-expr;
+    } while(test-expr)
+
+    done:
+
+    equal goto code:
+    init-expr;
+    t = test-expr;
+    if (!t) {
+      goto done;
+    }
+    loop:
+    body-statement
+    update-expr;
+    t = test-expr;
+    if (t) {
+      goto loop;
+    }
+    done:
+

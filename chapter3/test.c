@@ -28,11 +28,21 @@
 
 // Figure 3.15 C and assembly code for while version of factorial. The fact_while_goto
 // function illustrates the operation of the assembly code version.
-int fact_while(int n) {
+// int fact_while(int n) {
+// 	int result = 1;
+// 	while (n > 1) {
+// 		result *= n;
+// 		n = n - 1;
+// 	}
+// 	return result;
+// }
+
+
+int fact_for(int n) {
+	int i;
 	int result = 1;
-	while (n > 1) {
-		result *= n;
-		n = n - 1;
+	for (i = 2; i <= n; i++) {
+		result *= i;
 	}
 	return result;
 }

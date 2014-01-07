@@ -38,11 +38,15 @@
 // }
 
 
-int fact_for(int n) {
-	int i;
-	int result = 1;
-	for (i = 2; i <= n; i++) {
-		result *= i;
-	}
-	return result;
+// int fact_for(int n) {
+// 	int i;
+// 	int result = 1;
+// 	for (i = 2; i <= n; i++) {
+// 		result *= i;
+// 	}
+// 	return result;
+// }
+
+int absdiff (int x, int y) {
+	return x < y ? y - x : x - y;
 }

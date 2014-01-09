@@ -1,4 +1,4 @@
-int switch2(int x) {
+void switch2(int x) {
 	int result = 0;
 	switch (x) {
 		case -2:
@@ -20,5 +20,5 @@ int switch2(int x) {
 		default:
 		    result += 9;
 	}
-	return result;
+	// return 2;
 }

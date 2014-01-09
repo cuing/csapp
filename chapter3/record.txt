@@ -332,4 +332,15 @@ cmovbe   S, R       cmovna        CF | ZF               below or equal (unsigned
 
 Figure 3.17 The conditional move instructions. These instructions copy the source value
 S to its destination R when the move condition holds. Some instructions have "synonyms",
-alternate names for the same machine instruction 
+alternate names for the same machine instruction.
+
+
+
+3.7 Procedures
+
+The instruction supporting procedure calls and returns are shown in the following table:
+    Instruction            Description
+  call    Label            Procedure call
+  call *Operand            Procedure call
+  leave                    Prepare stack for return
+  ret                      Return from call

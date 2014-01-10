@@ -51,29 +51,57 @@
 // 	return x < y ? y - x : x - y;
 // }
 
-int switch_eg(int x, int n) {
-	int result = x;
+// int switch_eg(int x, int n) {
+// 	int result = x;
 
-	switch(n) {
-		case 100:
-		    result *= 122;
-		    break;
+// 	switch(n) {
+// 		case 100:
+// 		    result *= 122;
+// 		    break;
 
-	    case 102:
-	        result += 10;
+// 	    case 102:
+// 	        result += 10;
 
-	    case 103:
-	        result += 11;
+// 	    case 103:
+// 	        result += 11;
 
-	        break;
+// 	        break;
 	    
-	    case 104:
-	    case 106:
-	        result *= result;
-	        break;
+// 	    case 104:
+// 	    case 106:
+// 	        result *= result;
+// 	        break;
 
-        default:
-            result = 0;
+//         default:
+//             result = 0;
+// 	}
+// 	return result;
+// }
+
+// int swap_add(int *xp, int *yp) {
+// 	int x = *xp;
+// 	int y = *yp;
+// 	*xp = y;
+// 	*yp = x;
+// 	return x + y;
+// }
+
+// int caller() {
+// 	int arg1 = 534;
+// 	int arg2 = 1057;
+// 	int sum = swap_add(&arg1, &arg2);
+// 	int diff = arg1 - arg2;
+// 	return sum * diff;
+// }
+
+
+// Figure 3.25  C code for recursive factorial program
+int rfact(int n) {
+	int result;
+	if (n <= 1) {
+		result = 1;
+	} else {
+	    result = n * rfact(n - 1);
 	}
 	return result;
 }

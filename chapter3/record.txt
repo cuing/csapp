@@ -344,3 +344,13 @@ The instruction supporting procedure calls and returns are shown in the followin
   call *Operand            Procedure call
   leave                    Prepare stack for return
   ret                      Return from call
+
+By convention, registers %eax, %edx, and %ecx are classified as caller-save registers. On
+the other hand, registers %ebx, %esi, and %edi are classified as callee-save registers.
+
+
+Why does GCC allocate space the never gets used?
+GCC adheres to an x86 programming guideline that the total stack space used by the function
+should be a multiple of 16 bytes. The motivation for this convention is to ensure a proper
+alignment for accessing data.
+

@@ -1,0 +1,10 @@
+subl    $12, %esp
+movl    %ebx, (%esp)
+movl    %esi, 4(%esp)
+movl    %edi, 8(%esp)
+movl    8(%ebp), %ebx
+movl    12(%ebp), %edi
+movl    (%ebx), %esi
+movl    (%edi), %eax
+movl    16(%ebp), %edx
+movl    (%edx), %ecx

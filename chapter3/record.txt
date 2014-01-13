@@ -354,3 +354,19 @@ GCC adheres to an x86 programming guideline that the total stack space used by t
 should be a multiple of 16 bytes. The motivation for this convention is to ensure a proper
 alignment for accessing data.
 
+
+
+3.8 Array Allocation and Access
+
+One unusual feature of C is that we can generate pointers to elements with in arrays and
+perform arithmetric with these pointers.
+
+For data type T and integer constant N, the declaration
+T A[N];
+has two effects. First. it allocates a contiguous region of L * N bytes in memory, where
+L is the size of data type T. Let us denote the starting location as XA. Second, it
+introduces an identifier A that can be used as a pointer to the beginning of the array.
+The value of this pointer will be XA. The array elements can be accessed using an integer
+index ranging between 0 and N-1. Array element i will be stored at address XA + L * i.
+
+

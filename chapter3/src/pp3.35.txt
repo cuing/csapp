@@ -1,0 +1,17 @@
+Consider the following declarations:
+
+short            S[7]
+short           *T[3]
+short          **U[6]
+long double      V[8]
+long double     *W[4]
+
+Fill in the following table describing the element size, the total size, and the address of 
+element i for each of these arrays.
+
+Array    Element size    Total size    Start address    Element i
+  S           2              14             XS            XS + 2i
+  T           4               12            XT            XT + 4i
+  U           4              24             XU            XU + 4i
+  V           12             96             XV            XV + 8i     
+  W           4              16             WU            WU + 4i

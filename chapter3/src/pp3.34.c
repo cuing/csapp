@@ -23,3 +23,13 @@ int rfun(unsigned x) {
     leal    (%edx, %eax), %eax
 */
 
+/*
+A. Register %ebx holds the value of parameter x, so that it can be used to compute the result
+expression.
+
+C. This function computes the sum of the bits in argument x. It recursively computes the sum of
+   all but the least significant bit, and then it adds the least significant bit to get the
+   result. 
+
+
+*/

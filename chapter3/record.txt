@@ -370,3 +370,29 @@ The value of this pointer will be XA. The array elements can be accessed using a
 index ranging between 0 and N-1. Array element i will be stored at address XA + L * i.
 
 
+C allows arithmetic on pointers, where the computed value is scaled according to the size
+of the data type referenced by the pointer. That is, if p is a pointer to data of type T,
+and the value of p is xp, then the expression p + i has value xp + L*i, where L is the
+size of data type T.
+
+Expanding on our earlier example, suppose the starting address of integer array E and
+integer index i are stored in registers %edx and %ecx, respectively.
+
+
+Expression    Type    Value                Assembly code
+---------------------------------------------------------------------------------------
+E             int *   xE                   movl %edx, %eax
+E[0]          int     M[xE]                movl (%edx), %eax
+E[i]          int     M[xE + 4i]           movl (%edx, %ecx, 4), %eax
+&E[2]         int *   xE + 8               leal 8(%edx), %eax
+E + i -1      int *   xE + 4i - 4          leal -4(%edx, %ecx, 4), %eax
+*(E + i - 3)  int *   M[xE + 4i - 12]      movl -12(%edx, %ecx, 4), %eax
+&E[i] - E     int     i                    movl %ecx, %eax
+----------------------------------------------------------------------------------------
+In these examples, the leal instruction is used to generate an address, while movl is
+used to reference memory(except in the first and last cases, where the former copies
+an address and the latter copies the index). The final example shows that one can
+compute the diference of two pointers within the same data structure, with the result
+divided by the size of the data type.
+
+

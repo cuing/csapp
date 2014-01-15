@@ -96,12 +96,79 @@
 
 
 // Figure 3.25  C code for recursive factorial program
-int rfact(int n) {
-	int result;
-	if (n <= 1) {
-		result = 1;
-	} else {
-	    result = n * rfact(n - 1);
+// int rfact(int n) {
+// 	int result;
+// 	if (n <= 1) {
+// 		result = 1;
+// 	} else {
+// 	    result = n * rfact(n - 1);
+// 	}
+// 	return result;
+// }
+
+/*(a) Original C code
+  Compute i, k of fixed matrix product
+*/
+
+// int fix_prod_ele (fix_matrix A, fix_matrix B, int i, int k) {
+// 	int j;
+// 	int result = 0;
+
+// 	for (j = 0; j < N; j++) {
+// 		result += A[i][j] * B[j][k];
+// 	}
+
+// 	return result;
+// }
+
+
+/*
+(b) Optimized C code
+Compute i, k of fixed matrix product 
+*/
+
+// int fix_prod_ele_opt(fix_matrix A, fix_matrix B, int i, int k) {
+// 	int *Arow = &A[i][0];
+// 	int *Bptr = &B[0][k];
+
+// 	int result = 0;
+// 	int j;
+// 	for (j = 0; j != N; j++) {
+// 		result += Arow[j] * *Bptr;
+// 		Bptr += N;
+// 	}
+// 	return result;
+// }
+
+
+// assembly code for fix_prod_ele_opt loop
+
+// Registers: Arow in %esi, Bptr in %ecx, j in %edx, result in %ebx
+// .L6:                                      loop
+//   movl    (%ecx), %eax                    Get *Bptr
+//   imull   (%esi, %edx, 4), %eax           Multiple by Arow[i]
+//   addl    %eax, %ebx                      Add to result
+//   addl    $1, %edx                        Increment j
+//   addl    $64, %ecx                       Add 64 to Bptr
+//   cmpl    $16, %edx                       compare j:16
+//   jne     .L6                             If !=, goto loop
+
+
+
+/*
+Figure 3.28 Original and optimized code to compute element i, k of matrix product for
+fixed-length arrays. The compiler performs these optimizations automatically.
+*/
+
+
+// Compute i, k of variable matrix product
+int var_prod_ele(int n, int A[n][n], int B[n][n], int i, int k) {
+	int j;
+	int result = 0;
+	for (j = 0; j < n; j++) {
+		result += A[i][j] * B[j][k];
 	}
 	return result;
 }
+
+

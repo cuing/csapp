@@ -396,3 +396,21 @@ compute the diference of two pointers within the same data structure, with the r
 divided by the size of the data type.
 
 
+
+To access elements of multidimensional arrays, the compiler generates code to compute
+the offset of the desired element and then uses one of the MOV instructions with the
+start of the array as the base address and the (possible scaled) offset as an index.
+In general, for an array declared as
+    T D[R][C];
+array element D[i][j] is at memory address
+    &D[i][j] = xD + L(C*i + j);
+where L is the size of data type T in bytes.
+
+
+Whenever a program uses some constant as an array dimension or buffer size, it is best
+to associate a name with it via a #define declaration, and then use this name consistently,
+rather than the numeric value.
+
+There are not enough registers to hold all of the needed temporary data, and hence the
+compiler must keep some local variables in memory. In general, reading from memory can be
+done more readily than writing to memory, and so spilling read-only variables is preferable.

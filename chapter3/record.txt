@@ -495,3 +495,4 @@ double bit2double(usingned word0, unsigned word1) {
 On little-endian machine such as IA32, argument word0 will become the low-order 4 bytes of d,
 while word1 will become the high-order 4 bytes. On a big-endian machine, the role of the two
 arguments will be reversed.
+

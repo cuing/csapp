@@ -414,3 +414,84 @@ rather than the numeric value.
 There are not enough registers to hold all of the needed temporary data, and hence the
 compiler must keep some local variables in memory. In general, reading from memory can be
 done more readily than writing to memory, and so spilling read-only variables is preferable.
+
+
+
+3.9 Heterogeneous Data Structures
+
+C privides two mechanisms for creating data types by combining objects of different types:
+structures, declared using the keyword struct, aggregate multiple objects into a single unit;
+unions, declared using the keyword union, allow an object to be referenced using several
+different types.
+
+The implementation of structures is similar to that of arrays in that all of the components
+of a structure are stored in a contiguous region of memory, and a pointer to a structure is
+the address of its first byte. The compiler maintains informations about each structure type
+indicating the byte offset of each field. It generates references to structure elements using
+these offsets as displacements in memory referencing instructions.
+
+It is common to pass pointers to structures from one place to another rather than copying
+them.  rp -> width equal (*rp).width
+
+
+The syntax of a union declaration is identical to that for structures, but its semantics are
+very different. Rather than having the different fields reference different blocks of
+memory, they all reference the same block.
+
+Unions can be useful in several contexts. One application is when we know in advance that the
+use of two different field in a data structure will be a mutually exclusive. The, declaring
+these two fields as part of a union rather than a structure will reduce the total space
+allocated.
+
+The overall size of a union equals the maximum size of any of its fields.
+
+--------------------------------------------------------------------------------------------
+typedef enum { N_LEAL, N_INTERNAL } nodetype_t;
+
+struct NODE_T {
+  nodetype_t type;
+  union {
+    struct {
+        struct NODE_T *left;
+        struct NODE_T *right;
+    } internal;
+    double data;
+  }  info;
+};
+--------------------------------------------------------------------------------------------
+This structure requires a total of 12 bytes; 4 for type, and either 4 each for 
+info.internal.left and info.internal.right, or 8 for info.data.
+
+
+Unions can also be used to access the bit patterns of different data types. For example,
+the following code returns the bit representation of a float as an usigned:
+--------------------------------------------------------------------------------------------
+usigned float2bit(float f) {
+  union {
+    float f;
+    unsigned u;
+  } temp;
+  temp.f = f;
+  return temp.u;
+}
+--------------------------------------------------------------------------------------------
+
+When using unions to combine data types of different sizes, byte-ordering issues can become
+important. For example, supporse we write a procedure that will create an 8-byte double using
+the bit patterns given by two 4-byte usigned's:
+--------------------------------------------------------------------------------------------
+double bit2double(usingned word0, unsigned word1) {
+  union {
+    double d;
+    usigned u[2];
+  } temp;
+
+  temp.u[0] = word0;
+  temp.u[1] = word1;
+  return temp.d;
+}
+--------------------------------------------------------------------------------------------
+
+On little-endian machine such as IA32, argument word0 will become the low-order 4 bytes of d,
+while word1 will become the high-order 4 bytes. On a big-endian machine, the role of the two
+arguments will be reversed.

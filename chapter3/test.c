@@ -162,13 +162,30 @@ fixed-length arrays. The compiler performs these optimizations automatically.
 
 
 // Compute i, k of variable matrix product
-int var_prod_ele(int n, int A[n][n], int B[n][n], int i, int k) {
-	int j;
-	int result = 0;
-	for (j = 0; j < n; j++) {
-		result += A[i][j] * B[j][k];
-	}
-	return result;
+// int var_prod_ele(int n, int A[n][n], int B[n][n], int i, int k) {
+// 	int j;
+// 	int result = 0;
+// 	for (j = 0; j < n; j++) {
+// 		result += A[i][j] * B[j][k];
+// 	}
+// 	return result;
+// }
+
+struct S3
+{
+	char c;
+	int i[2];
+};
+
+struct U3
+{
+	char c;
+	int i[2];
+	double v;
+};
+
+int ps() {
+	struct S3 *p;
+	p -> i[1] = p -> i[0];
+	return p -> i[0];
 }
-
-

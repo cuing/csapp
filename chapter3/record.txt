@@ -496,3 +496,18 @@ On little-endian machine such as IA32, argument word0 will become the low-order 
 while word1 will become the high-order 4 bytes. On a big-endian machine, the role of the two
 arguments will be reversed.
 
+
+The IA32 hardware will work correctly regardless of the alignment of data. However, Intel
+recommends that data be aligned to improve memory system performance. Linux follows an
+alignment policy where 2-byte data types must have an address that is a multiple
+of 2, while any larger data types must have an address that is a multiple of 4. 
+
+Alignment is enforced by making sure that every data type is organized and allocated in such
+a way that object within the type satifies its alignment restrictions.
+
+For code involving structures, the compiler may need to insert gaps in the field allocation to
+ensure that each structure element satifies its alignment requirement. The structure then has
+some required alignment for its starting address.
+
+Microsoft Windows imposes a stronger alignment requirement - any primitive object of K bytes,
+for K = 2, 4 or 8, must have an address that is a multiple of K.

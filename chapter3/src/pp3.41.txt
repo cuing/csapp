@@ -1,0 +1,23 @@
+For each of the following structure declarations, determine the offset of each field,
+the total size of the structure, and its alignment requirement under Linux/IA32.
+
+struct P1 {int i; char c; int j; char d;}
+alignment = 4;
+4 + 4(char) + 4 + 4(char) = 16
+
+struct P2 {int i; char c; char d; int j;}
+alignment = 4;
+4 + 1 + 3 + 4 = 12;
+
+struct P3 {short w[3]; char c[3]}
+alignment = 2;
+2 + 2 + 2 + 1 + 1 + 2 = 12
+
+
+struct P4 {short w[3]; char *c[3]}
+alignment = 4;
+2 + 2 + 4 + 4*3 = 20
+
+struct P5 {struct P1 a[2]; struct P2 *p}
+alignment = 4;
+16 * 2 + 4 = 36

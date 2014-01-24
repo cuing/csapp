@@ -566,3 +566,17 @@ Here we highlight some key principles of pointers and their mapping into machine
 
     Recursion is often replaced by iteration. This can lead to some surprice when to monitor
     program execution with a debugger.
+
+
+  3.12 Out-of-Bounds Memory References and Buffer Overflow
+
+  We have seen that C does not perform any bounds checking for array references, and that local
+  variables are stored on the stack along with state information such as saved register values
+  and return addresses. This combination can lead to serious program errors, where the state
+  stored on the stack gets corrupted by a write to an out-of-bounds array element. when the
+  program then tries to reload the register or execute a ret instruction with this corrupted
+  state, things can go seriously wrong.
+
+  A particularly common source of state corruption is known as buffer overflow. Typically some
+  character array is allocated on the stack to hold a string, but the size of the string exceeds
+  the space allocated for the array.

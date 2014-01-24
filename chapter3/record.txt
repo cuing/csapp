@@ -548,3 +548,21 @@ Here we highlight some key principles of pointers and their mapping into machine
 
   Pointers can also point to functions. This provides a powerful capability for storing and passing
   references to code, which can be invoked in some other part of the program.
+
+
+
+  3.11 Life in the Real World: Using the GDB Debugger
+
+  Here are some examples of the optimizations that can be found at level two:
+    The control structures become more entangled. Most procedures have multiple return point, and
+    the stack management code to set up and complete a function is intermixed with the code
+    implementing the operations of the procedure.
+
+    Procedure calls are often inlined, replacing them by the instructions implementing the
+    procedures. This eliminates much of the overhead involved in calling and returning from a 
+    function, and it enables optimizations that are specific to individual function calls. On the
+    other hand, if we try to set a breakpoint for a function in a debugger, we might never
+    encounter a call to this function.
+
+    Recursion is often replaced by iteration. This can lead to some surprice when to monitor
+    program execution with a debugger.

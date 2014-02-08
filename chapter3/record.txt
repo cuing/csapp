@@ -580,3 +580,87 @@ Here we highlight some key principles of pointers and their mapping into machine
   A particularly common source of state corruption is known as buffer overflow. Typically some
   character array is allocated on the stack to hold a string, but the size of the string exceeds
   the space allocated for the array.
+
+  Many systems allow control over three forms of access: read, write, and execute. Historically,
+  the x86 architecture merged the read and execute access controls into a single 1-bit flag,
+  so that any page marked as readable was also executable.
+
+  The techniques we have outline -- randomization, stack protection, and limiting which portions
+  of memory can hold executable code -- are three of the most commom merchanisms used to
+  minimize the vulnerability of programs to buffer overflow attacks. They all have the
+  properties that they require no special effort on the part of the programmer and incur very
+  little or no performance penalty.
+
+  There are two ways to incorporate assembly code into C programs. First, we can write an entire
+  function as a separate assembly-code file and let the assembler and linker combine this with
+  code we have written in C. Second, we can use the inline assembly feature of GCC, where brief
+  sections of assembly code can be incorporated into a C program using the asm directive. This
+  approach has the advantage that it minimizes the amount of machine-specific code.
+
+
+3.13 x86-64: Extending IA32 to 64 Bits
+
+  The main features of x86-64:
+    Pointers and long integers are 64 bits long. Integer arithmetic operations support 8, 16,
+    32, and 64-bit data types.
+
+    The set of general-purpose registers is expanded from 8 to 16.
+
+    Much of the program state is held in registers rather than on the stack. Integer and pointer
+    procedure arguments(up to 6) are passed via registers. Some procedures do not need to access
+    the stack at all.
+
+    Conditional operations are implemented using conditional move instructions when possible,
+    yielding better performance than traditional branching code.
+
+    Floating-point operations are implemented using the register-oriented instruction set
+    introduced with SSE version 2, rather than the stack-based approach supported by IA32.
+
+
+  -----------------------------------------------------------------------------------------------
+  C declaration        Intel data type        Assembly code suffix    x86-64 size    IA32 Size
+  -----------------------------------------------------------------------------------------------
+  char                 Byte                   b                       1              1
+  short                Word                   w                       2              2
+  int                  Double word            l                       4              4
+  long int             Quad word              q                       8              4
+  long long int        Quad word              q                       8              8
+  char *               Quad word              q                       8              4
+  float                Single precision       s                       4              4
+  double               Double precision       d                       8              8
+  long double          Extended precision     t                       10/16          10/12
+  -----------------------------------------------------------------------------------------------
+  Figure 3.34 Sizes of standard data types with x86-64. These are compared to the sizes for
+  IA32. Both long integers and pointers require 8 bytes, as compared to 4 for IA32.
+
+  Here are some of the highlights of how procedures are implemented with x86-64:
+    Arguments are passed to procedures via registers, rather than on the stack. This eliminates
+    the overhead of storing and retrieving values on the stack.
+
+    The callq instruction stores a 64-bit return address on the stack.
+
+    Many functions do not require a stack frame. Only functions that cannot keep all local
+    variables in registers need to allocate space on the stack.
+
+    Functions can access storage on the stack up to 128 bytes beyond the current value of the
+    stack pointer. This allows some functions to store information on the stack without altering
+    the stack pointer.
+
+    There is no frame pointer. Instead, references to stack locations are made relative to the
+    stack pointer. Most functions allocate their total stack storage needs at the beginning of
+    the call and keep the stack pointer at a fixed position.
+
+    As with IA32, some registers are designated as callee-save registers. These must be saved
+    and restored by any procedure that modifies them.
+
+  There are several reasons a function may require a stack frame:
+    There are too many local variables to hold in registers.
+
+    Some local variables are arrays or structures.
+
+    The function uses the address-of operator(&) to compute the address of a local variable.
+
+    The function must pass some arguments on the stack to another function.
+
+    The function needs to save the state of a callee-save register before modifying it.
+

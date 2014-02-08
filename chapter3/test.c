@@ -171,21 +171,26 @@ fixed-length arrays. The compiler performs these optimizations automatically.
 // 	return result;
 // }
 
-struct S3
-{
-	char c;
-	int i[2];
-};
+// struct S3
+// {
+// 	char c;
+// 	int i[2];
+// };
 
-struct U3
-{
-	char c;
-	int i[2];
-	double v;
-};
+// struct U3
+// {
+// 	char c;
+// 	int i[2];
+// 	double v;
+// };
 
-int ps() {
-	struct S3 *p;
-	p -> i[1] = p -> i[0];
-	return p -> i[0];
+// int ps() {
+// 	struct S3 *p;
+// 	p -> i[1] = p -> i[0];
+// 	return p -> i[0];
+// }
+long int simple_1(long int *xp, long int y) {
+	long int t = *xp + y;
+	*xp = t;
+	return t;
 }

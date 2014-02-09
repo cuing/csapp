@@ -1,0 +1,35 @@
+3.12 Out-of-Bounds Memory References and Buffer Overflow
+
+In general, using gets or any function that can overflow storage
+is considered a bad programming practice.
+
+
+A more pernicious use of buffer overflow is to get a program to perform
+a function that it would otherwise be unwilling to do. This is one of 
+the most common methods to attack the security of a system over a computer
+network. Typically, the program is fed with a string that contains the
+byte encoding of some executable code, called the exploit code, plus some
+extra bytes that overwrite the return address with a pointer to the exploit
+code. The effect of executing the ret instrucntion si then to jump to the
+exploit code.
+
+Any interface to the external environment should me made "bullet proof" so
+that no behavior by an external agent can cause the system to misbehave.
+
+Stack randomization has become standard practice in Linux systems. It is one
+of a larger class of techniques known as address-space layout randomization,
+or ASLR. With ASLR, different parts of the program, including program code,
+library code, stack, global variables, and heap data, are loaded into
+different regions of memory each time a program is run. That means that a
+program running on one machine will have very different address mappings
+than the same program running on other machines. This can thwart some forms
+of attack.
+
+We can see that stack randomization and other aspects of ASLR can increase
+the effort required to successfully attack a system, and therefore greatly
+reduce the rate at which a virus or worm can spread, but it cannot provide
+a complete safeguard.
+
+
+
+

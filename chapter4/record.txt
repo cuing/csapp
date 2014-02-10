@@ -1,1 +1,17 @@
 4.1 The Y86 Instruction Set Architecture
+
+One important property of any instruction set is that the byte encodings must have a unique
+interpretation.
+
+Aside  Comparing IA32 to Y86 instruction encodings
+  We use a 4-bit encoding of registers, even though there are only eight possible registers.
+  IA32 uses just 3 bits. Thus IA32 can pack a push or pop instruction into just 1 byte, with
+  a 5-bit field indicating the instruction and the remaining 3 bits for the register specifier.
+  IA32 can encode constant values in 1, 2 or 4 bytes, whereas Y86 always requires 4 byte.
+
+
+The Y86 instruction set includes attributes of both CISC and RISC instruction sets. one the CISC
+side, it has condition codes, variable-length instructions, and stack-intensive procedure
+linkages. On the RISC side, it uses load-store architecture and a regualr encoding. It can be
+viewed as taking a CISC instrction set and simplifying it by applying some of the principles
+of RISC. 

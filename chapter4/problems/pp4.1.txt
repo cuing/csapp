@@ -1,0 +1,17 @@
+0x100:
+0x100: 30f30f000000
+0x106: 2031
+0x108:
+0x108: 4013fdffffff
+0x10e: 6031
+0x110: 7008010000
+
+Decimal 12 (line 2) has hex representation 0x0000000f. Writing the bytes in reverse order
+gives 0f 00 00 00.
+
+Decimal 3 (line 5) has hex representation 0xfffffffd. Writing the bytes in reverse order
+gives fd ff ff ff.
+
+The code starts at address 0x100. The first instruction requires 6 bytes, while the second
+requires 2. Thus, the loop target will be 0x00000108. Writing these bytes in reverse order
+gives 08 01 00 00. 

@@ -1,0 +1,32 @@
+A. 0x100: 30f3fcffffff40630008000000
+
+0x100: 30f3fcffffff   | irmovl $-4, %ebx
+0x106: 406300080000   | rmmovl %esi, 0x800(%ebx)
+0x10c: 00             | halt 
+
+B. 0x200:a06f80080200000030f30a00000090
+0x200: a06f           | pushl %esi
+0x202: 8008020000     | call 0x208
+0x207: 00             | halt
+0x208:
+0x208: 30f30a000000   | irmovl $10, %ebx
+0x20e: 90             | ret
+
+
+C. 0x300:50540700000010f0b01f
+0x300: 505407000000 | mrmovl 0x7(%esp), %ebp
+0x306: 10           | nop
+
+0x307: f0           | .byte 0xf0 # invalid instruction code
+0x308: b01f         | popl %ecx
+
+D. 0x400:6113730004000000
+0x400:              | loop:
+0x400: 6113         | subl %esi, %ecx
+0x402: 7300040000   | je loop
+0x 407: 00          | halt
+
+E. 0x500:6362a0f0
+0x500: 6362         | xorl %esi, %edx
+0x502: a0           | .byte 0xa0    # pushl instruction code
+0x503: f0           | .byte 0xf0    # Invalid register specifier byte 

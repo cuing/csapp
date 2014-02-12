@@ -15,3 +15,13 @@ side, it has condition codes, variable-length instructions, and stack-intensive 
 linkages. On the RISC side, it uses load-store architecture and a regualr encoding. It can be
 viewed as taking a CISC instrction set and simplifying it by applying some of the principles
 of RISC. 
+
+------------------------------------------------------------------------------------------------
+Value        Name                Meaning
+------------------------------------------------------------------------------------------------
+1            AOK                 Normal operation
+2            HLT                 halt instruction encountered
+3            ADR                 Invalid address encountered
+4            INS                 Invalid instruction encountered
+-----------------------------------------------------------------------------------------------
+Figure 4.5 Y86 status codes. In our design, the processor halts for any code other than AOK. 

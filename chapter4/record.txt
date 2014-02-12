@@ -25,3 +25,13 @@ Value        Name                Meaning
 4            INS                 Invalid instruction encountered
 -----------------------------------------------------------------------------------------------
 Figure 4.5 Y86 status codes. In our design, the processor halts for any code other than AOK. 
+
+
+
+
+4.2 Logic Design and the Hardware Control Language HCL
+
+In current technology, logic value 1 is represented by a high voltage of around 1.0 volt, while
+logic value 0 is represented by a low voltage of around 0.0 volts. Three major components are
+required to implement a digital system: combinational logic to compute functions on the bits,
+memory elements to store bits, and clock signals to regulate the updating of the memory element.

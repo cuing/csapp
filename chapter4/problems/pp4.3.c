@@ -16,7 +16,7 @@ rSum:
 	pushl    %ebx              # Save value of %ebx
 	mrmovl   8(%ebp), %ebx     # Get Start
 	mrmovl   12(%ebp), %eax    # Get Count
-	andl     %eax, %eax        # Test value of Count
+	andl     %eax, %eagx        # Test value of Count
 	jle      L38               # If <= 0, goto zreturn
 	irmovl   $-1, %edx
 	addl     %edx, %eax        # Count--

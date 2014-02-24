@@ -1,0 +1,6 @@
+int middle = [
+    A >= B && A <= C : A;
+    A >= B && B <= C : B;
+    1                : C;
+]
+

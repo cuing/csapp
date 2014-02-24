@@ -35,3 +35,60 @@ In current technology, logic value 1 is represented by a high voltage of around 
 logic value 0 is represented by a low voltage of around 0.0 volts. Three major components are
 required to implement a digital system: combinational logic to compute functions on the bits,
 memory elements to store bits, and clock signals to regulate the updating of the memory element.
+
+Logic gates generate an output equal to some Boolean function of the bit values at their inputs.
+
+Logic gates are always active. If some input to a gate changes, then within some small amount
+of thme, the output will change accordingly.
+
+Two restrictions are placed on how the networks are constructed:
+  The outputs of two or more logic gates cannot be connected together. Ohterwise, the two could
+  try to drive the wire in opposite directions, possibly causing an invalid voltage or a 
+  circuit malfunction.
+
+  The network must be acyclic. That is, there cannot be a path through a series of gates that 
+  forms a loop in the network. Such loops can cause ambiguity in the function computed by the
+  network.
+
+Several differences between these two ways of expression computation are worth noting:
+  Since a combinational circuit consists of a series of logic gates, it has the property that
+  the outputs continually respond to changes in the inputs. If some input to the circuit changes,
+  then after some delay, the outputs will change accordingly. In contrast, a C expression is only
+  evaluated when it is encountered during the execution of a program.
+
+  Logical expressions in C allow arguments to be arbitrary integers, interpreting 0 as FALSE and
+  anything else as TRUE. In contrast, our logic gates only operate over the bit values 0 and 1.
+
+  Logical expressions in C have the property that they might only be partially evaluated. If the
+  outcome of an And or Or operation can be determined by just evaluating the first argument, then
+  the second argument will not be evaluated.
+
+
+Combinational circuits to perform word-level computations are constructed using logic gates to
+compute the individual bit of the output word, based on the individual bits of the input words.
+
+Multiplexing functions are described in HCL using case expressions. A case expression has the 
+fllowing general form:
+  [
+    select_1 : expr_1
+    select_2 : expr_2
+
+             :
+             :
+    select_k : expr_k
+  ]
+The expression contains a series of cases, where each case i consists of a Boolean expression
+selecti, indicating when this case should be selected, and an integer expression expri, indicating
+the resulting value.
+
+
+To translate an HCL case expression into hardware, a logic synthesis program would need to analyze
+the set of selection expressions and resolve any possible conflicts by making sure that only the 
+first matching case would be selected.
+
+
+
+
+
+
+

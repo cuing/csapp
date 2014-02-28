@@ -86,6 +86,24 @@ To translate an HCL case expression into hardware, a logic synthesis program wou
 the set of selection expressions and resolve any possible conflicts by making sure that only the 
 first matching case would be selected.
 
+We consider two classes of memory devices:
+  Clocked registers: store individual bits or words. The clock signal controls the loading of the
+  register with the value at its input.
+
+  Random-access memories: store multiple words, using an address to select which word should be
+  read or written.
+
+
+In hardware, a register is directly connected to the rest of the circuit by its input and output
+wires. In machine-level programming, the registers represent a small collection of addressable
+words in the CPU, where the addresses consist of register IDs.
+
+A key point is that the registers serve as barriers between the combinational logic in different
+parts of the circuit. Values only propagate form a register input to its output once every clock
+cycle at the rising clock edge.
+
+
+4.3 Sequential Y86 Implementations
 
 
 

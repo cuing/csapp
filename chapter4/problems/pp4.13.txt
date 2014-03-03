@@ -1,0 +1,3 @@
+Tracing the steps listed in Figure 4.20 with rA equal to %esp, we can see that in the memory
+state, the instruction will store valA, the original value of the stack pointer, to memory,
+just as we found for IA32.

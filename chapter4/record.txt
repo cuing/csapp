@@ -105,6 +105,10 @@ cycle at the rising clock edge.
 
 4.3 Sequential Y86 Implementations
 
+Our purpose in developing SEO is to provide a first step toward our ultimate goal of implementing
+an efficient, pipelined processor.
+
+
 
 
 

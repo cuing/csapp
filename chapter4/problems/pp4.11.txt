@@ -1,0 +1,22 @@
+irmovl $128, %esp
+
+30f480000000
+
+Fetch        icode:ifun <- M1[0x00e] = 3:0
+             rA:rB <- M1[0x00f] = f:4
+             valC <- M4[0x010] = $128
+             valP <- 0x00e + 6 = 0x014
+
+
+Decode
+
+
+Execute      valE <- 0 + 128 = 128
+
+
+Memory       
+
+Write back   R[rB] <- valE  = 128
+
+
+PC update    PC <- valP = 0x14 

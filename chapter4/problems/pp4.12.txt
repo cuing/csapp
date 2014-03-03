@@ -1,0 +1,20 @@
+0x01c: b00f
+
+Fetch    	icode:ifun <- M1[0x01c] = b0
+	        rA:rB <- M1[0x01d] = 0:f
+
+	        valP = 0x01c + 2 = 0x01e
+
+Decode   	valA <- R[%esp] = 124
+        	valB <- R[%esp] = 124
+
+Execute     valE <- valB + 4 = 128
+ 
+
+Memory      valM <- M4[valA] = 9
+
+Write back  R[%esp] <- 128
+            R[rA] <- valM = 9
+
+
+PC update   PC <- valP = 0x01e

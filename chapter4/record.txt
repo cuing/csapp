@@ -110,6 +110,29 @@ an efficient, pipelined processor.
 
 
 
+The hardware units are associated with the different processing stage:
+
+Fetch:
+  Using the program counter register as an address, the instruction memory reads the bytes of an
+  instruction. The PC incrementer computers valP, the incremented program counter.
+
+Decode:
+  The register file has two read ports, A and B, via which register values valA and valB are read
+  simultaneously.
+
+Execute:
+  The execute stage uses the arithmetic/logic(ALU) unit for different purposes according to the
+  instruction type. For integer operations, it performs the specified operation. For other
+  instructions, it serves as an adder to compute an incremented or decremented stack pointer, to
+  compute an effective address, or simple to pass one of its inputs to its outputs by adding zero.
+
+Memory:
+  The data memory reads or writes a word of memory when executing a memory instruction. The
+  instruction and data memories access the same memory locations, but for different purposes.
+
+Write back:
+  The register file has two write ports. Port E is used to write values computed by the ALU, while
+  port M is used to write values read from the data memory.
 
 
 

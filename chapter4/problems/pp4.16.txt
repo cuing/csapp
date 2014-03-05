@@ -1,0 +1,19 @@
+call 0x029
+
+Fetch            icode:ifun <- M1[PC] <- M1[0x023] = 8:1
+
+                 valC <- M4[PC + 1] = M4[0x024] = 0x029
+                 valP <- 0x023 + 5 = 0x028
+
+
+Decode           valB <- R[%esp] = 128
+				
+
+Execute          valE <- valB + (-4) = 124
+
+Memory           M4[valE] <- valP = M4[124] <- 0x028
+
+Write back       R[%esp] <- valE = 124
+
+PC update        PC <- valC = 0x029
+

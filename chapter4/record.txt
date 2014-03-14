@@ -135,7 +135,30 @@ Write back:
   port M is used to write values read from the data memory.
 
 
+----------------------------------------------------------------------------------------------
+Stage             Computation        OP1 rA, rB                mrmovl D(rB), rA
+----------------------------------------------------------------------------------------------
+Fetch             icode, ifun        icode:ifun <- M1[PC]      icode:ifun <- M1[PC]
+                  rA,rB              rA:rB <- M1[PC + 1]       rA:rB <- M1[PC + 1]
+                  valC                                         valC <- M4[PC + 2]
+                  valP               valP <- PC + 2            valP <- PC + 6
 
+Decode            valA, srcA         valA <- R[rA]
+                  valB, srcB         valB <- R[rB]              valB <- R[rB]
+
+Execute           valE               valE <- valB OP valA       valE <- valB + valC
+                  Cond, codes        Set CC
+
+Memory            read/write                                     valM <- M4[valE]
+
+Write back        E port, dstE       R[rB] <- valE
+                  M port, dstM                                   R[rA] <- valM
+
+PC update         PC                 PC <- valP                  PC <- valP
+-----------------------------------------------------------------------------------------------
+Figure 4.24 Identifying the different computation steps in the sequential implementation. The
+second column identifies the value being computed or the operation being performed in the stages
+of SEQ. The computations for instructions OP1 and mrmovl are shown as examples of the computations.
 
 
 

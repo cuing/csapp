@@ -1,0 +1,54 @@
+On Designing and Deploying Internet-Scale Services
+
+Instruction
+
+three simple tenets worth considering up front:
+  1. Expect failures. A component may crash or be stopped at any time.
+     Dependent components might fail or be stopped at any time. There will
+     be network failures. Disks will run out of space. Handle all failures
+     gracefully
+
+  2. Keep things simple. Complexity breeds problems. Simple things are easier
+     to get right. Avoid unnecessay dependencies. Installation should be
+     simple. Failures on one server should have no impact on the rest of the
+     data center.
+
+  3. Automate everything. People forget things. Automated processes are
+     testable fixable, and therefore ultimately much more reliable. Automate
+     wherever possible.
+
+
+Recommendations
+
+Some of the operations-friendly basics that have the biggest impact on
+overall service design are:
+  Design for failure.
+
+  Redundancy and fault recovery.
+
+  Commodity hardware slice.
+
+  Single-version software.
+
+
+More specific best practices for desiging operations-friendly services are:
+  
+  Quick service health check
+
+  Develop in the full environment.
+
+  Zero trust of underlying components.
+
+  Do not build the same functionality in multiple components.
+
+  One pod or cluster should not affecter another podor cluster.
+
+  Allow (rare) emergency human intervention.
+
+  Keep things simple and robust.
+
+  Partition the service.
+
+  Understand the network design.
+
+  Analyze throughput and latency.

@@ -1,0 +1,45 @@
+Chapter1 Speed Is a Feature
+
+Faster sites lead to better user engagement.
+
+Faster sites lead to better user retention.
+
+Faster sites lead to higher conversions.
+
+Latency
+  The time from the source sending a packet to the destination receiving it
+
+Bandwidth
+  Maximum throughput of a logical or physical communication path
+
+
+
+Propagation delay
+  Amount of time required for a message to travel from the sender to receiver, which is a
+  function of distance over speed with which the signal propagates.
+
+Transmission delay
+  Amount of time required to push all the packet's bits into the link, which is a function of the
+  packet's length and data rate of the link.
+
+Processing delay
+  Amount of time required to process the packet header, check for bit-level errors, and determine
+  the packet's destination.
+
+Queuing delay
+  Amount of time the incoming packet is waiting in the queue until it can be processed.
+
+
+Each packet traveling over the network will incur many instances of each of these delays. The
+farther the distance between the source and destination, the more time it will take to propagate.
+The more intermediate routers we encounter along the way, the higher the processing and
+transmission delays for each packet. Finally, the higher the load of traffic along the path, the
+higher the likelihood of our packet being delayed inside an incoming buffer.
+
+
+As a result, to improve performance of our applications, we need to architect and optimize our
+protocols and networking code with explicit awareness of the limitations of available bandwidth
+and the speed of light: we need to reduce round trips, move the data closer to the client, and
+build applications that can hide the latency through caching, pre-fetching, and a variety of
+similar techniques, as explained in subsequent chapters.
+

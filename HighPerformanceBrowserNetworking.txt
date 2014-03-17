@@ -117,3 +117,25 @@ Performance Checklist
   Compress transfered data.
   Position servers closer to the user to reduce roundtrip times.
   Reuse established TCP connections whenever possible.
+
+
+
+CHAPTER 3  Building Blocks of UDP
+
+Datagram
+  A self-contained, independent entity of data carrying sufficient information to be routed form
+  the source to the destination nodes without reliance on earlier exchanges between the nodes and
+  the transporting network.
+
+UDP non-services:
+  No guarantee of message delivery
+    No acknowledgments, ret ransmissions, or timeouts
+
+  No guarantee of order of delivery
+    No packet sequence numbers, no recordering, no head-of-line blocking.
+
+  No connection state tracking
+    No connection establishment or teardown state machines.
+
+  No congestion control
+    No built-in client or network feedback mechanisms.

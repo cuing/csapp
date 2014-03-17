@@ -43,3 +43,77 @@ and the speed of light: we need to reduce round trips, move the data closer to t
 build applications that can hide the latency through caching, pre-fetching, and a variety of
 similar techniques, as explained in subsequent chapters.
 
+
+
+Flow Control
+
+Flow control is a mechanism to prevent the sender from overwhelming the receiver with data it may
+not be able to process-the receiver may be busy, under heavy load, or may only be willing to
+allocate a fixed amount of buffer space.
+
+If you connection to the server ro the client, is unable to make full use of the available 
+bandwidth, then checking the interaction of your window sizes is always a good place to start.
+
+Neither the sender nor the receiver knows the available bandwidth at the beginning of a new
+connection, and hence need a mechanism to estimate it and also to adapt their speeds to the
+continuously changing conditions with the network.
+
+In 1988, Van Jacobson and Michael J.Karels documented several algorithms to address these problems:
+show-start, congestion avoidance, fast retransmit, and fast recovery.
+
+The only way to estimate the available capacity between the client and the server is to measure
+it by exchanging data, and this is precisely what slow-start is designed to do.
+
+So why is slow-start an important factor to keep in mind when we are building applications for the
+browser? Well, HTTP and many other application protocols run over TCP, and no matter the available
+bandwidth, every TCP connection must go through the slow-start phase-we cannot use the full
+capacity of the link immediately.
+
+Howerver, for many HTTP connections, which are often short and bursty, it is not unusual for the
+request to terminate before the maximum window size is reached. As a result, the performance of
+many web applications is often limited by the roundtrip time between server and client: slow-start
+limits the available bandwidth throughput, which has an adverse effect on the performance of small
+transfers.
+
+The implicit assumption in congestion avoidance is that packet loss is indicative of network
+congestion: somewhere along the path we have encountered a congested link or a router, which was
+force to drop the packet, and hence we need to adjust our window to avoid inducing more packet loss
+to avoid overwhelming the network.
+
+
+Bandwidth-delay product(BDP)
+  Product of data link's capacity and its end-to-end delay. The result is the maximum amount of
+  unacknowledged data that can be in flight at any point in time.
+
+
+In fact, packet loss is necessary to get the best performance from TCP! A dropped packet acts as a
+feedback mechanism, which allows the receiver and sender to adjust their sending rates to avoid
+overwhelming the network, and to minimize latency.
+
+If a packet is lost, then the audio codec can simply insert a minor break in the audio and continue
+processing the incoming packets. If the gap is small, the user may not even notice, and waiting for
+the lost packet runs the risk of introducing variable pauses in audio output, which would result
+in a much worse experience for the user.
+
+The core principles Optimizing TCP:
+  TCP three-way handshake introduces a full roundtrip of latency.
+  TCP show-start is applied to every new connection.
+  TCP flow and congestion control regulate throughput of all connections.
+  TCP throughput is regulated by current congestion window size.
+
+
+TCP connection can have an even greater impact:
+  No bit is faster than one that is not sent; send fewer bits
+  We can't make the bits travel faster, but we can move the bits closer.
+  TCP connection reuse is critical to improve performance.
+
+
+Performance Checklist
+  Upgrade server kernel to latest version(Linux:3.2++).
+  Ensure that cwnd size is set to 10.
+  Disable show-start after idle.
+  Ensure that window scaling is enabled.
+  Eliminate redundant data transfers.
+  Compress transfered data.
+  Position servers closer to the user to reduce roundtrip times.
+  Reuse established TCP connections whenever possible.

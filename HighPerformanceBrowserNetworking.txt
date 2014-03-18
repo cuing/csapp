@@ -139,3 +139,99 @@ UDP non-services:
 
   No congestion control
     No built-in client or network feedback mechanisms.
+
+
+Assuming the IP address of the STUN server is known(through DNS discovery, or through a manually
+specified address), the application first sends a binding request to the STUN server. In turn, the
+STUN server replies with a response that contains the public IP address and port of the client as
+seen form the public network. This simple workflow addresses serveral problems we encountered in
+our earliar discussion:
+  The application discovers its public IP and port tuple and is then able to use this information
+  as part of its application data when communicating with its peers.
+
+  The outbound binding request to the STUN server establishes NAT routing entries along the path,
+  such that the inbound packets arriving at the public IP and port tuple can now find their way
+  back to the host application on the internal network.
+
+  The STUN protocol defines a simple mechanism for keeplive pings to keep the NAT routing entries
+  from timing out.
+
+Whenever STUN fails, we can use the Traversal Using Relays around NAT(TURN) protocol as a fallback,
+which can run over UDP and switch to TCP if all else fails.
+
+They key word in TURN is, of course, "relays." The protocol relies on the presence and availability
+of a public relay to shuttle the data between the peers.
+  Both clients begin their connections by sending an allocate request to the same TURN server, 
+  followed by permissions negotiation.
+
+  Once the negotiation is complete, both peers communicate by sending their data to the TURN server,
+  which then relays to the other peers.
+
+Building an effective NAT traversal solution is not for the faint of heart. Thankfully, we can 
+learn on Interactive Connectivity Establishment(ICE) protocol to help with this task. ICE is a 
+protocol, and a set of methods, that seek to establish the most efficient tunnel between the
+participants: direct connection where possible, leveraging STUN negotiation where needed, and
+finally fallback to TURN if all else fails.
+
+
+In practice, if you are building a P2P application over UDP, then you most definitely want to
+leverage an existing platform API, or a third-party library that implements ICE, STUN, and TURN for
+you.
+
+
+Unlike TCP, which ships with build-in flow and congestion control and congestion avoidance, UDP
+applications must implement these mechanisms on their own. Congestion insensitive UDP applications
+can easily overwhelm the network, which can lead to degraded network performance and, in server
+case, to network congestion collapse.
+
+Here is a short sample of the recommendations:
+  Application must tolerate a wide range of Internet path conditions.
+
+  Application should control rate of transmission.
+
+  Application should perform congestion control over all traffic.
+
+  Application should use bandwidth similar to TCP.
+
+  Application should back off retransmission counters following loss.
+
+  Application should not send datagrams that exceed path MTU.
+
+  Application should handle datagram loss, duplication, and reordering.
+
+  Application should be robust to delivery delays up to 2 minutes.
+
+  Application may use keepalives when needed.
+
+
+
+
+CHAPTER 4
+Transport Layer Security
+
+The TLS protocol is designed to provide three essential services to all applications running above
+it: encryption, authentication, and data integrity.
+
+  Encryption:
+    A mechanism to obfuscate what is send from one computer to another.
+
+  Authentication:
+    A mechanism to verify the validity of provided identification material.
+
+  Integrity:
+    A mechanism to detect message tampering and forgery.
+
+
+The ingenious part of this handshake, and the reason TLS works in practice, is its use of public
+key cryptography(also known as asymmetric key cryptography), which allows the peers to negotiate
+a shared secret key without having to establish any prior knowledge of each other, and to do so
+over an unencrypted channel.
+
+Finally, with encryption and authentication in place, the TLS protocol also provides its own
+message framing mechanism and signs each message with a message authentication code(MAC). The MAC
+algorithm is a one-way cryptographic hash function(effectively a checksum), the keys to which are
+negotiated by both connection peers. Whenever a TLS record is sent, a MAC value is generated and
+appended for that message, and the receiver is then able to compute and verify the send MAC value
+to ensure message integrity and authenticity.
+
+ 

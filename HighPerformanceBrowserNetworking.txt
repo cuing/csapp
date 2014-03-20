@@ -235,3 +235,56 @@ appended for that message, and the receiver is then able to compute and verify t
 to ensure message integrity and authenticity.
 
  
+As the name implies,, Applicationi Layer Protocol Negotiation(ALPN) is a TLS extension that
+introduces support for application negotiation into the TLS handshake thereby eliminating the need
+for an extra roundtrip required by the HTTP Upgrade workflow. Specifically, the process if as
+follows:
+  The client appends a new ProtocolNameList field, containing the list of supported application
+  protocols, into the ClientHello message.
+
+  The server inspects the ProtocolNameList field and returns a ProtocolName field indicating
+  the selected protocol as part of the ServerHello message.
+
+  The Server Name Indication (SNI) extension was introduced to the TLS protocol, which allows the
+  client to indicate the hostname the client is attempting to connect to at the start of the
+  handshake. As a result, a web server can inspect the SNI hostname, select the appropriate,
+  and continue the handshake.
+
+
+RLS Session Resumption
+
+The first Session Identifiers(RFC 5246) resumption mechanism was introduced in SSL 2.0, which 
+allowed the server to create and send a 32-byte session identifier as part of its "ServerHello"
+message during the full TLS negotiation we saw earlier.
+
+Internally, the server could then maintain a cache of session IDs and the negotiated session
+parameters for each peer. In turn, the client could then also store the session ID information and
+include the ID in the "ClientHello" message for a subsequent session, which servers as an
+indication to the server that the client still remembers the negotiated cipher suite and keys from
+previous handshake and is able to reuse them. Assuming both the client and the server are able to
+find the shared session ID parameters in their respective caches, then an abbreviated handshake can
+take place. Ohterwise, a full new session negotiation is required, which will generate a new 
+session ID.
+
+In practice, most web applications attempt to establish multiple connections to the same host to
+fetch resources in parallel, which makes session resumption a must-have optimization to reduce
+latency and computational costs for both sides.
+
+Most modern browsers intentionally wait for the first TLS connection to complete before opening new
+connections to the same server: subsequent TLS connections can reuse the SSL session parameters to
+avoid the costly handshake.
+
+
+Session Ticket
+
+Session Tickets removes the requirement for the server to keep per-client session state. Instead,
+if the client indicated that it supports Session Tickets, in the last exchange of the full TLS
+handshake, the server can include a New Session Ticket record, which includes all of the session
+data encrypted with a secret key known only by the server.
+
+
+The session identifiers and session ticket mechanisms are respectively commonly referred to as 
+session caching and stateless resumption mechanisms. The main improvement of stateless resumption
+is the removal of the server-side session cache,  which simplifies deployment by requiring that the
+client provide the session ticket on every new connection to the server- that is, until the ticket
+has expired.

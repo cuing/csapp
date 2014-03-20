@@ -288,3 +288,15 @@ session caching and stateless resumption mechanisms. The main improvement of sta
 is the removal of the server-side session cache,  which simplifies deployment by requiring that the
 client provide the session ticket on every new connection to the server- that is, until the ticket
 has expired.
+
+
+The requirement to perform real-time Online Certificate Status Protocol(OCSP) queries creates
+several problems of its own:
+  The CA must be able to handle the load of the real-time queries.
+
+  The CA must ensure that the service is up and globally available at all times.
+
+  The client must block on OCSP requests beform proceeding with the navigation.
+
+  Real-time OCSP requests may impair the client's privacy because the CA knows which site the 
+  client is visiting.

@@ -44,6 +44,26 @@ build applications that can hide the latency through caching, pre-fetching, and 
 similar techniques, as explained in subsequent chapters.
 
 
+Chapter 2
+Building Blocks of TCP
+
+As the heart of the Internet are two protocols, IP and TCP. The IP, or Internet Protocol, is what 
+provides the host-to-host routing and addressing, and TCP, or Transimission Control Protocol, is 
+what provides the abstraction of a relible network running over an unreliable channel.
+
+Three-Way Handshake
+SYN
+  Client picks a random sequence number x and sends a SYN packet, witch may also include additional 
+  TCP flags and options.
+
+SYN ACK
+  Server increments x by one, picks own random sequence number by y, appends its own set of flags 
+  and options, and dispatches the response.
+
+ACK 
+  Client increments both x and y by one and completes the handshake by dispatching the last ACK 
+  packet in the handshake,
+
 
 Flow Control
 

@@ -320,3 +320,91 @@ several problems of its own:
 
   Real-time OCSP requests may impair the client's privacy because the CA knows which site the 
   client is visiting.
+
+
+A typical workflow for delivering application data is as follows:
+  Record protocol receives application data.
+
+  Received data is divided into blocks: maximum of 2..14 bytes, or 16KB per record.
+
+  Application data is optionally compressed.
+
+  Message authentication  code (MAC) or HMAC is added.
+
+  Data is encrypted using the negotiated cipher.
+
+
+Session tickets will be used for clients that support them, and session identifiers as a fallback
+for older clients.
+
+
+
+HTTP Strict Transport Security is a security policy mechanism that allows the server to declare
+access rules to a compliant browser via a simple HTTP header -- e.g. Strict-Transport-Security:
+max-age = 31536000. Specifically, it instructs the user-agent to enforce the following rules:
+  All requests to the origin should be sent over HTTPS.
+
+  All insecure links and client requests should be automatically converted to HTTPS on the client
+  before the request is sent.
+
+  In case of a certificate error, an error message is displayed, and the user is not allowed to
+  circumvent the warning.
+
+  max-age specifies the lifetime of the specified HSTS rulest in seconds.
+
+  Optionally the UA can be instructed to remember("pin") the fingerprint of a host in the specified
+  certificate chain for future access, effectively limiting the scope of authorities who can
+  authenticate the certificate.
+
+
+A short list to put on the agenda:
+  Get best performance from TCP;
+
+  Upgrade TLS libraries to latest release, and build servers against them.
+
+  Enable and configure session caching and stateless resumption.
+
+  Monitor your session caching hit rates and adjust configuration accordingly.
+
+  Terminate TLS sessions closer to the user to minimize roundtrip latencies.
+
+  Configure your TLS record size to fit into a single TCP segment.
+
+  Ensure that your certificate chain does not overflow the initial congestion window.
+
+  Remove unnecessary certificates form your chain; minimize the depth.
+
+  Disable TLS conpression on your server.
+
+  Configure SNI support on your server.
+
+  Configure OCSP stapling on your server.
+
+  Append HTTP Strict Transport Security header.
+
+
+
+CHAPTER 5 
+
+Introduce to Wireless Networks
+
+In fact, Claude E. Shannon gave us a exact mathematical model to determine channel capacity,
+regardless of the technology in use.
+  
+  Equation 5-1. Channel capacity is the maximum information rate
+    C = BW x log2(1 + S/N)
+  C si the channel capacity and is measured in bits per second.
+  
+  BW is the available bandwidth, and is measured in hertz.
+  
+  S is signal and N is noise, and they are measured in watts.
+
+Regardless of the name, acronym, or the revision number of the specification, the two fundamental
+constraints on achievable data rates are the amount of available bandwidth and the signal prower
+between the receiver and the sender.
+
+Finally, it is also worth noting that all frequency ranges offers the same performance. 
+Lower-frequency signals travel farther and cover large areas(macrocells), but at the cose of 
+requiring larger antennas and having more clients competing for access. On the other hand,
+high-frequency signals can transfer more data but won't travel as far, resulting in smaller
+coverage areas (microcells) and a requirement for more infrastructure.

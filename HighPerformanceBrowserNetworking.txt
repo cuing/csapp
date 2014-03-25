@@ -462,3 +462,20 @@ Just a few factors that may affect the performance of your wireless network:
   Amount of available transmit power, both at receiver and sender
 
   Amount of processing power and the chosen modulation scheme.
+
+The ethernet standard has historically relied on a probabilistic carrier sense multiple access(CSMA)
+protocol, which is a complicated name for a simple "listen before you speak" algorithm. In brief,
+if you have data to send:
+  Check whether anyone else is transmitting.
+
+  If the channel is busy, listen until it is free.
+
+  When the channel is free, transmit data immediately.
+
+
+WiFi follows a very similar but slightly different model: due to hardware limitations of the radio,
+it cannot detect collisions while sending data. Hence, WiFi relies on collision avoidance(CSAM/CA),
+where each sender attempts to avoid collisions by transmitting only when the channel is sensed to 
+be idle, and then sends its full message frame in its entirety. Once the WiFi frame is send, the
+sender waits for an explicit acknowledgment from the receiver before proceeding with the next
+transmission.

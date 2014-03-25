@@ -408,3 +408,57 @@ Lower-frequency signals travel farther and cover large areas(macrocells), but at
 requiring larger antennas and having more clients competing for access. On the other hand,
 high-frequency signals can transfer more data but won't travel as far, resulting in smaller
 coverage areas (microcells) and a requirement for more infrastructure.
+
+
+In fact, this scenario illustrates two important effects:
+  Mear-far problem
+    A condition in which a receiver captures a strong signal and thereby makes it impossible for
+    the receiver to detect a weaker signal, effectively "crowding out" the weaker signal.
+
+  Cell-breathing
+    A condition in which the coverage area, or the distance of the signal, expands and shrinks
+    based on the cumulative noise and interference levels.
+
+
+Modulation is the process of digital-to-analog conversion, and different "modulation alphabets"
+can be used to encode the digital singal with different efficiency. The combination of the
+alphabet and the symbol rate is what then determines the final throughput of the channel. As a
+hands-on example:
+  Receiver and sender can process 1000 pulses or symbols per second(1000 baud).
+
+  Each transmitted symbol represents a different bit-sequence, determined by the chosen alphabet.
+  (e.g., 2-bit alphabet: 00, 01, 10 11)
+
+  The bit rate of the channel is 1000 baud x 2 bits per symbol, or 2000 bits per second.
+
+Our brief crash course on signal theory can be summed up as follows: the performance of any
+wireless network, regardless of the name, acronym, or the revision number, is fundamentally limited
+by a small number of well-known parameters. Specifically, the amount of allocated bandwidth and the
+signal-to-noise ratio between receiver and sender. Futher, all radio-powered communication is:
+  Done over a shared communication medium.
+
+  Regulated to use specific bandwidth frequency ranges.
+
+  Regulated to use specific transmit power rates.
+
+  Subject to continuously changing background noise and interference.
+
+  Subject to technical constraints of the chosen wireless technology.
+
+  subject to constraints of the device: form factor, power,etc.
+
+Needless to say, what you see on the label and what you experience in the real world might be very
+different.
+
+Just a few factors that may affect the performance of your wireless network:
+  Amount of distance between receiver and sender
+
+  Amount of background noise in current location
+
+  Amount of interference from users in the same network(intra-cell)
+
+  Amount of interference from users in other, nearby networks(inter-cell)
+
+  Amount of available transmit power, both at receiver and sender
+
+  Amount of processing power and the chosen modulation scheme.

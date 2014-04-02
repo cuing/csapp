@@ -479,3 +479,28 @@ where each sender attempts to avoid collisions by transmitting only when the cha
 be idle, and then sends its full message frame in its entirety. Once the WiFi frame is send, the
 sender waits for an explicit acknowledgment from the receiver before proceeding with the next
 transmission.
+
+Measuring and Optimizing WiFi Performance
+  WiFi provides no bandwidth or latency guarantees or assignment to its users.
+
+  WiFi provides variable bandwidth based on signal-to-noise in its environment.
+
+  WiFi transmit power is limited to 200mW, and likely less in you region.
+
+  WiFi has a limited amount of spectrum in 2.4 GHz and the newer 5GHz bands.
+
+  WiFi access points overlap in their channel assignment by design.
+
+  WiFi access points and peers complete for access to the same radio channel.
+
+There is no such thing as "typical" WiFi performance. The opearating range will vary based on the
+standard, location of the user, used devices, and the local radio environment.
+
+
+CHAPTER 7
+Mobile Networks
+
+In 1991, the first 2G network was launched in Finland base on the emerging GSM standard, which
+introduced digital signaling within the radio network. This enabled first circuit-switched mobile
+data services, such as text messaging.
+

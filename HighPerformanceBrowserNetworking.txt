@@ -502,13 +502,62 @@ In 1991, the first 2G network was launched in Finland base on the emerging GSM s
 introduced digital signaling within the radio network. This enabled first circuit-switched mobile
 data services, such as text messaging.
 
-<<<<<<< HEAD
 The combination of GPRS and earlier voice technologies is often described as 2.5G.
 
-=======
 Hence, WiFi offers a small power optimization where the access point broadcasts a delivery
 trafficindication message(DTIM) within a periodic beacon frame to indicate that it will be
 transmitting data for certain clients immediately after. In turn, the clients can listen for these
 DTIM frames as hints for when the radio should be ready to receive, and otherwise the radio can
 sleep until the next DTIM transmission. This lowers battery use but adds extra latency.
->>>>>>> 9efee5895afb96ff7fc458a66ea385d951b4be4e
+
+If all users always remained in the same fixed position, and stayed within reach of a single tower,
+then a static routing topology would suffice. However, as we all know, that is simple not the case:
+users are mobile and must be migrated from tower to tower, and the migration process should not
+interrupt any voice or data traffic. Needless to say, this is a nontrivial problem.
+
+In a nutshell, that is all there is to it. This high-level architecture is effectively the same in
+all the different generations of mobile data networks. The names of the logical components may
+differ, but fundamentally all mobile networks are subject to the following workflow:
+  Data arrives at the external packet gateway, which connects the core network to the public
+  Internet.
+
+  A set of routing and packet policies is applied at the packet gateway.
+
+  Data is routed from the public gateway to one or more serving gateways, which act as mobility
+  anchors for the devices within the radio network.
+
+  A user database service performs the authentication, billing, provisioning of services, and
+  location tracking of each user on the network.
+
+  The radio tower performs the necessary resource assignment and negotiation with the target device
+  and then delivers the data over the radio interface.
+
+In summary, a user initiating a new request incurs several different latencies:
+  Control-plane latency
+    Fixed, on-time latency cost incurred for RRC negotiation and state transitions: < 100ms for 
+    idle to active, and < 50 ms for dormant to active.
+
+  User-plane latency
+    Fixed cost for every application packet transfered between the device and the radio tower < 5ms.
+
+  Core network latency
+    Carrier dependent cost for transporting the packet form the radio tower to the packet gateway:
+    in practice, 30-100 ms.
+
+  Internet routing latency
+    Variable latency cost between the carrier's packet gateway and the destination address on the
+    public Internet.
+
+
+The core idea behind HetNets is a simple one: instead of relying on just the macro coverage of a
+large geographic area, which creates a lot of competition for all users, we can also cover the area
+with many small cells, each of which can minimize path loss, require lower transmit power, and
+enable better performance for all users.
+
+
+In other words, at least with respect to this test, LTE offers comparable and better performance
+than WiFi, which also shows that improved performance is possible, and all the extra complexity
+is paying off! The mobile web doesn't have to be slow. In fact, we have all reasons to believe that
+we can and will make it faster.
+
+

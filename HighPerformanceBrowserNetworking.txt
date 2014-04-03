@@ -504,3 +504,5 @@ In 1991, the first 2G network was launched in Finland base on the emerging GSM s
 introduced digital signaling within the radio network. This enabled first circuit-switched mobile
 data services, such as text messaging.
 
+The combination of GPRS and earlier voice technologies is often described as 2.5G.
+

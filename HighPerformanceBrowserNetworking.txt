@@ -12,8 +12,6 @@ Latency
 Bandwidth
   Maximum throughput of a logical or physical communication path
 
-
-
 Propagation delay
   Amount of time required for a message to travel from the sender to receiver, which is a
   function of distance over speed with which the signal propagates.
@@ -504,3 +502,8 @@ In 1991, the first 2G network was launched in Finland base on the emerging GSM s
 introduced digital signaling within the radio network. This enabled first circuit-switched mobile
 data services, such as text messaging.
 
+Hence, WiFi offers a small power optimization where the access point broadcasts a delivery
+trafficindication message(DTIM) within a periodic beacon frame to indicate that it will be
+transmitting data for certain clients immediately after. In turn, the clients can listen for these
+DTIM frames as hints for when the radio should be ready to receive, and otherwise the radio can
+sleep until the next DTIM transmission. This lowers battery use but adds extra latency.

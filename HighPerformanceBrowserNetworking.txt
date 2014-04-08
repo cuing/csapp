@@ -658,3 +658,17 @@ radio idle:
 
 CHAPTER 9
 Brief History of HTTP
+
+Let us quickly recap the features of HTTP 0.9:
+  Client-server, request-response protocol.
+
+  ASCII protocol, running over a TCP/IP link.
+
+  Designed to transfer hypertext documents(HTML).
+
+  The connection between server and client is closed after every request.
+
+
+
+CHAPTER 10
+Primer on Web Performance

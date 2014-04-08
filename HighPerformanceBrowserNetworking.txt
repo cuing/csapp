@@ -561,3 +561,100 @@ is paying off! The mobile web doesn't have to be slow. In fact, we have all reas
 we can and will make it faster.
 
 
+
+CHAPTER 8
+Optimizing for Mobile Networks
+
+Designing applications for the mobile web requires careful planning and consideration of the
+presentation of the content within the constraints of the form factor of the device, the unique
+performance properties of the radio interface, and the impact on the battery life. The three are
+inextricably linked.
+
+
+In fact, the physical layers of the radio interface are specifically build to optimize the battery
+life against the following constraints:
+  Radio use at full power can drain a full battery in a matter of hours.
+
+  Radio power requirements are going up with every wireless generation.
+
+  Radio is often second in power consumption only to the screen.
+
+  Radio use has a nonlinear energy profile with respect to data transfered.
+
+
+Intermittent network access is a performance anti-pattern on mobile networks. In fact, extending
+this same logic yields the following rules:
+  Polling is exceptionally expensive on mobile networks; minimize it.
+
+  Where possible, push delivery and notifications should be used.
+
+  Outbound and inbound requests should be coalesced and aggregated.
+
+  Noncritical requests should be deferred until the radio is active.
+
+
+Whenever there if a need for read-time updates, you should consider the following questions:
+  What is the best interval of updates and does it match user expectations?
+
+  Instead of a fixed update interval, can an adaptive strategy be used?
+
+  Can the inbound or outbound requests be aggregated into fewer network calls?
+
+  Can the inbound or outbound requests be deferred until later?
+
+
+A quick summary of what we have learned about the RPC:
+  RRC state machines are different for every wireless standard.
+
+  RPC state machines are managed by the radio network for each dvicce.
+
+  PRC state promotions to high power occur when data must be transfered.
+
+  RPC state demotions to lower power on network-configured timeouts.
+
+  (4G) Latency state transitions can take 10 to 100 milliseconds.
+
+  (4G) HSPA+ state transitions are competitive with LTE.
+
+  (3G) HSPA and CDMA state transitions can take several seconds.
+
+  Every network transfer, no matter the size, inccurs an energy tail.
+
+Do not couple user interactions, user feedback, and network communication.
+
+
+Your application should remain operational, to the extent possible, when the network is unavailable
+or a transient failure happens and should adapt based on request type and specific error:
+  Do not cache or attempt to guess the state of the network.
+
+  Dispatch the request, listen for failures, and diagnose what happened.
+
+  Transient errors will happen; plan for them, and use a retry strategy.
+
+  Listen to connection state to anticipate the best request strategy.
+
+  Use a backoff algorithm for request retries; do not spin forever.
+
+  If offline, log and dispatch the request later if possible.
+
+  Leverage HTML5 AppCache and localStorage for offline mode.
+
+
+Instead, anticipate what your users will need next, download the content ahead of time, and let the
+radio idle:
+  If you need to fetch a large music or a video file, consider downloading the entire file upfront,
+  instead of streaming in chunks.
+
+  Prefetch application content and invest in metrics and statistical models to help identify which
+  content is appropriate to download ahead of time.
+
+  Prefetch third-party content, such as ads, ahead of time and add application logic to show and
+  update their state when necessary.
+
+  Eliminate unnecessary intermittent transfers.
+
+
+
+
+CHAPTER 9
+Brief History of HTTP

@@ -672,3 +672,144 @@ Let us quickly recap the features of HTTP 0.9:
 
 CHAPTER 10
 Primer on Web Performance
+
+The simplest definition of PLT is "the time until the loading spinner stops spinning in the
+browser". A more technical definition is time to onload event in the browser, which is an event
+fired by the browser once the document and all of its dependent resources have finished loading.
+
+Time and user perception.
+------------------------------------------------------------------------------------------------
+Delay                User perception
+-----------------------------------------------------------------------------------------------
+0-100ms              Instant
+------------------------------------------------------------------------------------------------
+100-300ms            Small perceptible delay
+------------------------------------------------------------------------------------------------
+300-1000ms           Machine is working
+------------------------------------------------------------------------------------------------
+1000+ms              Likely mental context switch
+------------------------------------------------------------------------------------------------
+10000+ms             Task is abandoned
+------------------------------------------------------------------------------------------------
+
+
+
+The exact list of performed optimizations will differ by browser vendor, but at their core the
+optimizations can be grouped into two broad classes:
+  Document-aware optimization
+    The networking stack is intergrated with the document, CSS, and JavaScript parsing pipelines
+    to help identify and prioritize critical network assets, dispatch them early, and get the page
+    to an interactive state as soon as possible. This is often done via resource priority
+    assignments, lookahead parsing, and similar techniques.
+
+
+  Speculative optimization
+    The browser may learn user navigation patterns over time and perform speculative optimizations
+    in an attempt to predict the likely user actions by pre-resolving DNS names, pre-connecting to
+    likely hostnames, and so on.
+
+
+There are four techniques employed by most browders:
+  Resource pre-fetching and prioritization
+    Document, CSS and JavaScript parsers may communicate extra information to the network stack to
+    indicate the relative priority of each resource: blocking resources required for first
+    rendering are given high priority, while low-priority requests may be temporarily held back
+    in a queue.
+
+  DNS pre-resolve
+    Likely hostnames are pre-resolved ahead of time to avoid DNS latency on a future HTTP request.
+    A pre-resolve may be triggered through learned navigation history, a use action such as
+    hovering over a link, or other signals on the page.
+
+  TCP pre-connect
+    Following a DNS resolution, the browser may speculatively open the TCP connection in an
+    anticipation of an HTTP request. If it guesses right, it can eliminate another full roundtrip
+    of network latency.
+
+  Page pre-rendering
+    Some browders allow you to hint the likely next destination and can pre-render the entire page
+    in a hidden tab, such that it can be instantly swapped in when the user initiates the 
+    navigation
+
+
+To start, pay close attention to the structure and the delivery of each page:
+  Critical resources such as CSS and JavaScript should be discoverable as early as possible in the
+  document.
+
+  CSS should be delivered as early as possible to unblock rendering and JavaScript execution.
+
+  Noncritical JavaSCript should be defered to avoid blocking DOM and CSSOM construction.
+
+  The HTML document is parsed incrementally by the parser; hence the document should be periodically
+  flushed for best performance.
+
+
+
+CHAPTER 11 
+HTTP 1.X
+
+
+networking optimizations:
+  Reduce DNS lookups
+    Every hostname resolution requires a network roundtrip, imposing latency on the request and
+    blocking the request while the lookup is in progress.
+
+  Make fewer HTTP requests
+    No request is faster than a request not made: eliminate unnecessary resources on your pages.
+
+  Use a Content Delivery Network
+    Locating the data geographically closer to the client can significantly reduce the network
+    latency of every TCP connection and improve throughput.
+
+  Add an Expires header and configure ETags
+    Relevant resources should be cached to avoid re-requesting the same bytes on each and every 
+    page. An Exipres header can be used to specify the cache lifetime of the object, allowing it to
+    be retrieved directly from the user's cache and eliminating the HTTP request entirely. Etags
+    and last-Modified provide an efficient cache revalidation mechanism - effectively a fingerprint
+    or a timestamp of the last update.
+
+  Gzip assets
+    All text-based assets should be compressed with Gzip when transfered between the client and the
+    server. On average, Gzip will reduce the file size by 60-80%, which makes it one of the simpler
+    and high-benefit optimization you can do.
+
+  Avoid HTTP redirects
+    HTTP redirects can be extremely costly, especially when they redirect the client to a different
+    hostname, which results in additional DNS lookup, TCP connection latency, and so on.
+
+
+Adding support for HTTP keepalive allows us to eliminate the second TCP three-way handshake, avoid
+another round of TCP show-start, and save a full roundtrip of network latency.
+
+
+In practice, due to lack of multiplexing, HTTP pipelining creates many subtile and undocumented
+implications for HTTP servers, intermediaries, and clients:
+  A single show response blocks all requests behind it.
+
+  When processing in parallel, servers mush buffer pipelined responses, which may exhaust server
+  resources - e.g., what if one of the responses is very large? This exposes an attack vector 
+  against the server.
+
+  A failed response may terminate the TCP connection, forcing the client to request all the
+  subsequent resources, which may cause duplicate processing.
+
+  Detecting pipelining compatibility reliably, where intermediaries may be present, is a nontrivial
+  problem.
+
+  Some intermediaries do not support pipelining and may abort the connection, while others may
+  serialize all requests.
+
+
+A quick checklist for enabling pipelining in your own application:
+  Your HTTP client must support pipelining.
+
+  Your HTTP server must support pipelining.
+
+  Your application must handle aborted connections and retries.
+
+  Your application must handle idempotency concerns of aborted requests.
+
+  Your application must protect itself from broken intermediaries.
+  
+
+

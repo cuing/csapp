@@ -812,4 +812,40 @@ A quick checklist for enabling pipelining in your own application:
   Your application must protect itself from broken intermediaries.
   
 
+A few considerrations to keep in mind:
+  TCP three-way handshake introduces a full roundtrip of latency.
+
+  TCP show-start is applied to every new connection.
+
+  TCP flow and congestion control regulate throughput of all connections.
+
+  TCP throughput is regulated by current congestion window size.
+
+However, how an application uses each new, or established, TCP connection can have an even greater
+impact:
+  No bit is faster than on bit that is not sent; send fewer bits.
+
+  We can't make the bits travel faster, but we can move the bits closer.
+
+  TCP connection reuse is critical to improve performance.
+
+
+Optimizing TCP performance pays high dividends, regardless of the type of application, for every
+new connection to your servers. A short list to put on the agenda:
+  Upgrade server kernel to latest version.
+
+  Ensure that cwnd size is set to 10.
+
+  Disable show-start after idle.
+
+  Ensure that window scaling is enabled.
+
+  Eliminate redundant data transfers.
+
+  Compress transferred data.
+
+  Position servers closer to the user to reduce roundtrip times.
+
+  Reuse established TCP connections whenever possible.
+
 

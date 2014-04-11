@@ -849,3 +849,53 @@ new connection to your servers. A short list to put on the agenda:
   Reuse established TCP connections whenever possible.
 
 
+CHAPTER 13
+Building Blocks of UDP
+
+Datagram
+  A self-contained, independent entity of data carrying sufficient informaction to be routed from
+  the source to the destination nodes without reliance on earlier exchanges between the nodes and 
+  the transporting network.
+
+While the term "packet" applies to any formatted block of data, the term "datagram" is often
+reserved for packets delivered via an unreliable service - no delivery guarantees, no failure
+notifications.
+
+
+Assuming the IP address of the STUN server is known, the application first sends a binding request
+to the STUN server. In turn, the STUN server replies with a response that contains the public IP
+address and port of the client as seen from the public network. This simple workflow addresses
+serveral problems we encountered in our earlier discussion:
+  The application discovers its public IP and port tuple and is then able to use this information
+  as part of its application data when communicating with it peers.
+
+  The outbound binding request to the STUN server establishes NAT routing entries along the path,
+  such that the inbound packets arriving at the public IP and port tuple can now find their way back
+  to the host application on the internal network.
+
+  The STUN protocol defines a simple mechanism for keepalive pings to keep the NAT routing entries
+  from timing out.
+
+Here is a short sample of the recommendations:
+  Application must tolerate a wide range of Internet path conditions.
+
+  Application should control rate of transmission.
+
+  Application should perform congestion control over all traffic.
+
+  Application should use bandwidth similar to TCP.
+
+  Application should back off retransmission counters following loss.
+
+  Application should not send datagrams that exceed path MTU.
+
+  Application should handle datagram loss, duplication, and reordering.
+
+  Application should be robust to delivery delays up to minutes.
+
+  Application should enable IPv4 UDP checksum, and must enable Ipv^ checksum.
+
+  Application may use keepalives when needed.
+
+
+  

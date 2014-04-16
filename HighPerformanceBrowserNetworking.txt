@@ -849,53 +849,95 @@ new connection to your servers. A short list to put on the agenda:
   Reuse established TCP connections whenever possible.
 
 
-CHAPTER 13
-Building Blocks of UDP
+CHAPTER 12
+HTTP 2.0
 
-Datagram
-  A self-contained, independent entity of data carrying sufficient informaction to be routed from
-  the source to the destination nodes without reliance on earlier exchanges between the nodes and 
-  the transporting network.
-
-While the term "packet" applies to any formatted block of data, the term "datagram" is often
-reserved for packets delivered via an unreliable service - no delivery guarantees, no failure
-notifications.
+The primary goals for HTTP 2.0 are to reduce latency by enabling full request and response
+multiplexing, minimize protocol overhead via efficient compression of HTTP header fields, and add
+support for request prioritization and server push.
 
 
-Assuming the IP address of the STUN server is known, the application first sends a binding request
-to the STUN server. In turn, the STUN server replies with a response that contains the public IP
-address and port of the client as seen from the public network. This simple workflow addresses
-serveral problems we encountered in our earlier discussion:
-  The application discovers its public IP and port tuple and is then able to use this information
-  as part of its application data when communicating with it peers.
+HTTP 2.0 does not modify the application semantics of HTTP in any way. All the core concepts, such
+as HTTP methods, status codes, URIs, and header fields, remain in place. Instead, HTTP 2.0 modifies
+how the data is formatted(framed) and transported between the client and server, both of whom
+manage the entire process, and hides all the complexity from our applications within the new framing
+layer. As a result, all existing applications can be delivered without modification.
 
-  The outbound binding request to the STUN server establishes NAT routing entries along the path,
-  such that the inbound packets arriving at the public IP and port tuple can now find their way back
-  to the host application on the internal network.
+key design criteria of the protocol:
+  Substantially and measurably improve end-user perceived latency in most cases, over HTTP 1.1 using
+  TCP.
 
-  The STUN protocol defines a simple mechanism for keepalive pings to keep the NAT routing entries
-  from timing out.
+  Address the "head of line blocking" problem in HTTP.
 
-Here is a short sample of the recommendations:
-  Application must tolerate a wide range of Internet path conditions.
+  Not require multiple connections to a server to enable parallelism, thus improving its use of TCP,
+  especially regarding congestion control.
 
-  Application should control rate of transmission.
+  Retain the semantics of HTTP 1.1, leveraging existing documentation, including (but not limit to)
+  HTTP methods, status codes, URIs, and where appropriate, header fields.
 
-  Application should perform congestion control over all traffic.
+  Clearly define how HTTP 2.0 interacts with HTTP 1.x, especially in intermediaries.
 
-  Application should use bandwidth similar to TCP.
+  Clearly identify and new extensibility points and policy for their appropriate use.
 
-  Application should back off retransmission counters following loss.
+new HTTP 2.0 terminology:
+  Stream
+    A bidrectional flow of bytes within an established connection.
 
-  Application should not send datagrams that exceed path MTU.
+  Message
+    A complete sequence of frames that map to a logical message.
 
-  Application should handle datagram loss, duplication, and reordering.
-
-  Application should be robust to delivery delays up to minutes.
-
-  Application should enable IPv4 UDP checksum, and must enable Ipv^ checksum.
-
-  Application may use keepalives when needed.
+  Frame
+    The smallest unit of communication in HTTP 2.0, each containing a frame header, which at 
+    minimum identifies the stream to which the frame belongs.
 
 
-  
+The terminology of streams, messages, and frames is essential knowledge for understanding HTTP 2.0:
+  All communication is performed with a single TCP connection.
+
+  The Stream is virtual channel within a connection, which carries bidirectional messages. Each
+  Stream has a unique integer identifier(1, 2, ..., N).
+
+  The message is logical HTTP message, such as a request, or response, which consists of one or
+  more frames.
+
+  The frame is the smallest unit of communication, which carries a specific type of data.
+
+The ability to break down an HTTP message into independent frames, interleave them, and then 
+reassemble them on the other end is the single most important enhancement of HTTP 2.0:
+  Interleave multiple requests in parallel without blocking on any one.
+
+  Interleave multiple responses in parallel without blocking on any one.
+
+  Use a single single connection to deliver multiple requests and responses in parallel.
+
+  Remove unnecessary HTTP 1.x workarounds from our application code.
+
+
+The new binary framing layer in HTTP 2.0 resolves the head-of-line blocking problem found in 
+HTTP 1.1 and eliminates the need for multiple connections to enable parallel processing and
+delivery of requests and responses.
+
+One connection per origin:
+  Consistent prioritization between all streams
+
+  Better compression through use of a single compression context
+
+  Improved impact on network congestion due to fewer TCP connections
+
+  Less time in slow-start and faster congestion and loss recovery
+
+
+HTTP 2.0 provides a simple mechanism for stream and connection flow control:
+  Flow control is hop-by-hop, not end-to-end.
+
+  Flow control is based on window update frames: receiver advertises how many bytes it is prepared
+  to receive on a stream and for the entire connection.
+
+  Flow control window size is updated by a WINDOW_UPDATE frame, which specifies the stream ID and
+  the window size increment value.
+
+  Flow control is directional: receiver may choose to set any window size that it desires for each
+  stream and for the entire connection.
+
+  Flow control can be disabled by a receiver, both for an individual stream or for the entire
+  connection.

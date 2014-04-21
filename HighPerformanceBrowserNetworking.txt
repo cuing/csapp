@@ -941,3 +941,59 @@ HTTP 2.0 provides a simple mechanism for stream and connection flow control:
 
   Flow control can be disabled by a receiver, both for an individual stream or for the entire
   connection.
+
+
+The only difference with HTTP 2.0 is that we can now move this workflow out of the application and
+into the HTTP protocol itself, which offers important benefits:
+  Pushed resources can be cached by the client.
+
+  Pushed resources can be declined by the client.
+
+  Pushed resources can be reused across different pages.
+
+  Pushed resources can be prioritized by the server. 
+
+
+To reduce this overhead and improve performance, HTTP 2.0 compresses header metadata:
+  Instead of retransmitting the same data on each request and response, HTTP 2.0 uses 
+  "header tables" on both the client and server to track and store previously sent key-value pairs.
+
+  Header tables persist for the entire HTTP 2.0 connection and are incrementally updated both by 
+  the client and server.
+
+  Each new header key-value pair is either appended to the existing table or replaces a previous
+  value in the table.
+
+Once the frame type is known, the remainder of the frame can be interpreted by the parser. The
+HTTP 2.0 standard defines the following types:
+  DATA            Used to transport HTTP message bodies
+
+  HEADERS         Used to communicate additional header fields for a stream
+
+  PRIORITY        Used to assign or reassign priority of referenced resource
+
+  RST_STREAM      Used to signal abnormal termination of a stream
+
+  SETTINGS        Used to signal configuration data about how two endpoints may communicate
+
+  PUSH_PROMISE    Used to signal a promise to create a stream and serve referenced resource
+
+  PING            Used to measure the roundtrip time and perform "liveness" checks
+
+  GOAWAY          Used to inform the peer to stop creating streams for current
+
+  WINDOW_UPDATE   Used to implement flow control on a per-stream or per-connection basis
+
+  CONTINUATION    Used to continue a sequence of header block fragments
+
+
+The server determines the order of the frames, and we do not have to worry about the type or content
+of each stream. Stream 2 could be a large data transfer or a video stream, but it does not block
+the other streams within the shared connection!
+
+
+CHAPTER 13
+Optimizing Application Delivery
+
+
+

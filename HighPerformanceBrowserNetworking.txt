@@ -995,5 +995,95 @@ the other streams within the shared connection!
 CHAPTER 13
 Optimizing Application Delivery
 
+Regardless of the type of network or the type or version of the networking protocols in use, all 
+applications should always seek to eliminate or reduce unecessary network latency and minimize the
+amount of transferred bytes. These  two criteria are the evergreen performance best practices that
+serve as the foundation for dozens of familiar performance rules:
+  Reduce DNS lookups
+    Every hostname resolution requires a network roundtrip, imposing latency on the request and
+    blocking the request while the lookup is in progress.
+
+  Reuse TCP connections
+    Leverage connection keepalive whenever possible to eliminate the TCP handshake and slow-start
+    latency overhead.
+
+  Minimize number of HTTP redirects
+    HTTP redirects can be extremely costly, especially when they redirect the client to a different
+    hostname, which results in additinal DNS lookup, TCP handshake latency, and so on. The optimal
+    number of redirects is zero.
+
+  Use a Content Delivery Network(CDN)
+    Locating the data geographically closer to the client can significantly reduce the network
+    latency of every TCP connection and improve throughput. This advice applies both to static and
+    dynamic content.
+
+  Eliminate unnecessary resources
+    No request is faster than a request not made.
+
+By this point, all of these recommendations should require no explanation: latency is the
+bottleneck, and the fastest byte is a byte not sent. However, HTTP also provides a number of
+additional mechanisms, such as caching and compression, as well as its own set of version-specific
+performance quirks:
+  Cache resources on the client
+    Application resources should be cached to avoid re-requesting the same bytes each time the
+    resources are required.
+
+  Compress assets during transfer
+    Application resources should be transfered with the minimum number of bytes: always apply the 
+    best compression method for each transfered asset.
+
+  Eliminate unnecessary request bytes
+    Reducing the transfered HTTP header data can save entire roundtrips of network latency.
+
+  Parallelize request and response processing
+    Request and response queuing latency, both on the client and server, often goes unnoticed, but
+    contributes significant and unnecessary latency delays.
+
+  Apply protocol-specific optimizations
+    HTTP 1.x offers limited parallelism, which requires that we bundle resources, split delivery
+    across domains, and more. By contrast, HTTP 2.0 performs best when a single connection is used
+    and HTTP 1.x specific optimizations are removed.
 
 
+For resources delivered over HTTP, make sure the appropriate chache headers are in place:
+  Cache-Control header can specify the cache lifetime(max-age) of the resource.
+
+  Last-Modified and Etag headers provide validation mechanisms.
+
+
+The size of text-based, such as HTML, CSS, and JS, can be reduced by 60%-80% on average when
+compressed with Gzip. Images, one the other hand, require a more nuanced consideration:
+  Images account for over half the transferred bytes of an average page.
+
+  Image files can be made smaller by eliminating unnecessary metadata.
+
+  Images should be resized on the server to avoid shipping unnecessary bytes.
+
+  An optimal image format should be chosen based on type of image.
+
+  Lossy compression should be used whenever possible.
+
+
+Once the right image format is selected, ensure that the dimensions of the files are no larger than
+they need to be. Resizing an oversized image on the client negatively impacts the CPU, GPU, and
+memory requirements, in addition to unnecessarily increasing the transfer size.
+
+
+With the evergreen optimizations in place, and with good performance instrumentation within the
+application, evaluate whether the application can benefit from applying HTTP 1.x specific
+optimizations:
+  Leverage HTTP pipelining
+    If your application controls both the client and the server, then pipelining can help eliminate
+    significant amounts of network latency.
+
+  Apply domain sharding
+    If your application performance is limited by the default six connections per origin limit,
+    consider splitting resources across multiple origins.
+
+  Bundle resources to reduce HTTP requests
+    Techniques such as concatenation and spriting can both help minimize the protocol overhead and
+    deliver pipelining-like performance benefits.
+
+  Inline small resource
+    Consider embedding small resources directly into the parent document to minimize the number of
+    request.

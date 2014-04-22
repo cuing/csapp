@@ -1087,3 +1087,34 @@ optimizations:
   Inline small resource
     Consider embedding small resources directly into the parent document to minimize the number of
     request.
+
+
+
+CHAPTER 14
+Primer on Browser Networking
+
+Network Security and Sandboxing
+  Connection limits
+    Browser manages all open socket pools and enforces connection limits to protect both the client
+    and server from resource exhaustion.
+
+  Request formatting and response processing
+    Browser formats all outgoing requests to enforce consistent and well-formed protocol semantics
+    to protect the server. Similarly, response decoding is done automatically to protect the user
+    from malicious servers.
+
+  TLS negotiation
+    Browser performs the TLS handshake and performs the necessary verification checks of the
+    certificates. The user is warned when and if any of the verification fails.
+
+  Same-origin policy
+    Browser enforces constraints on which requests can be initiated by the application and to which
+    origin.
+
+
+Resource and Client State Caching
+  The browser automatically evaluates caching directives on each resource.
+
+  The browser revalidates expired resources when possible.
+
+  The browser automatically manages the size of cache and resource eviction.

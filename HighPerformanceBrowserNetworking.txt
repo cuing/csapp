@@ -1118,3 +1118,40 @@ Resource and Client State Caching
   The browser revalidates expired resources when possible.
 
   The browser automatically manages the size of cache and resource eviction.
+
+
+CHAPTER 15
+XMLHttpRequest
+
+The "XMLHttpRequest Level 2" draft was published in 2008, which added a number of new features:
+  Support for request timeouts
+
+  Support for binary and text-based data transfers
+
+  Support for application override of media type and encoding of responses
+
+  Support for monitoring progress events of each request
+
+  Support for efficient file uploads
+
+  Support for safe cross-origin requests
+
+CROS takes a number of additional security precautions to ensure that the server is CROS aware:
+  CROS requests omit user credentials such as cookies and HTTP authentication.
+
+  The client is limited to issuing "simple cross-origin requests," which restricts both the allowed
+  methods (GET, POST, HEAD) and access to HTTP headers that can be sent and read by the XHR.
+
+
+Dispatching and controlling a scripted HTTP request takes just a few lines of JS code, and the
+browder handles all the rest:
+  Browser formats the HTTP request and parses the response.
+
+  Browser enforces relevant security policies.
+
+  Browser handles content negotiation.
+
+  Browser handles request and response caching.
+
+  Browser handles authentication, redirects, and more...
+

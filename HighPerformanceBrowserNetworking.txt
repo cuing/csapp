@@ -1155,3 +1155,39 @@ browder handles all the rest:
 
   Browser handles authentication, redirects, and more...
 
+
+
+CHAPTER 16
+Server-Sent Events
+
+The combination of the EventSource API in the browser and the well-defined event stream data format
+is what makes SSE both an efficient and an indispensable tool for handing real-time data in the
+browser:
+  Low latency delivery via a single, long-lived connection
+
+  Efficient browser message parsing with no unbounded buffers
+
+  Automatic tracking of last seen message and auto reconnect
+
+  Client message notifications as DOM events
+
+
+Under the hood, SSE provides an efficient, cross-browser implementation of XHR streaming: the
+actual delivery of the messages is done over a single, long-lived HTTP connection. However, unlike
+dealing XHR streaming on our own, the browser handles all the connection management and message
+parsing, allowing our applications to focus on the business logic! In short, SSE makes working
+with real-time data simple and efficient.
+
+SSE provides a memory-efficient implementation of XHR streaming. Unlike a raw XHR connection, which
+buffers the full received response until the connection is dropped, an SSE connection can discard
+processed messages without accumulating all of them in memory.
+
+
+There are two key limitations to SSE. First, it is server-to-client only and hence does not address
+the request streaming use case. Second, the event-stream protocol is specifically designed to
+transfer UTF-8 data: binary streaming, while possible, is inefficient.
+
+
+
+CHAPTER 17
+WebSocket

@@ -1191,3 +1191,30 @@ transfer UTF-8 data: binary streaming, while possible, is inefficient.
 
 CHAPTER 17
 WebSocket
+
+The WebSocket wire protocol(RFC 6455) developed by the HyBi Working Group consists of two high-level
+components: the opening HTTP handshake used to negotiate the parameters of the connection: the
+opening HTTP handshake used to negotiate the parameters of the connection and a binary message
+framing mechanism to allow for low overhead, message-based delivery of both text and binary data.
+
+Deploying a high-performance WebSocket service requires careful tuning and consideration, both on
+the client and on the server. A short list of criteria to put on the agenda:
+  Use secure WebSocket(WSS over TLS) for reliable deployments.
+
+  Pay close attention to polyfill performance.
+
+  Leverage subprotocol negotiation to determine the application protocol.
+
+  Optimize binary payloads to minimize transfer size.
+
+  Consider compression UTF-8 content to minimize transfer size.
+
+  Set the right binary type for received binary payloads.
+
+  Monitor the amount of buffered data on the client.
+
+  Split large application messages to avoid head-of-line blocking.
+
+  Leverage other transports where applicable.
+
+

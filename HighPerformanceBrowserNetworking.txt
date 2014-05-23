@@ -57,7 +57,7 @@ SYN
 SYN ACK
   Server increments x by one, picks own random sequence number by y, appends its own set of flags 
   and options, and dispatches the response.
-
+   
 ACK 
   Client increments both x and y by one and completes the handshake by dispatching the last ACK 
   packet in the handshake,
